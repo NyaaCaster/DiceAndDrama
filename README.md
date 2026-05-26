@@ -12,7 +12,9 @@ DiceAndDrama/
 │  ├─ BLUEPRINT.md         ← 任务蓝图（M0–M8 状态）
 │  └─ .work/PROJECT-OVERVIEW.md  ← 架构快照（开新会话先读）
 ├─ .claude/skills/         ← Claude Code 工作流 skill
-└─ .ref/pic/               ← 设计参考图
+└─ .ref/                   ← 灵感参考资料（**不入 git**）
+   ├─ pic/                 ← 设计参考图
+   └─ kopp2_rf/            ← KoPP2 反编译机制分析（M4/M6/M8 借鉴依据）
 ```
 
 ## 端口与镜像
@@ -27,7 +29,7 @@ DiceAndDrama/
 
 ## 部署流程
 
-### 一次性准备（部署机）
+### 一次性准备
 
 ```powershell
 # 创建 docker 共享网络（client 与 cloudsave 通过它互通）
@@ -36,17 +38,25 @@ docker network create dicedrama-net
 # 配置 docker daemon 信任私有 registry（如未配置）
 # Linux: /etc/docker/daemon.json 加 "insecure-registries": ["h.hony-wen.com:5000"]
 # Windows: Docker Desktop → Settings → Docker Engine → 同上 JSON 字段
+# 鉴权（如 registry 启用了登录）
+docker login h.hony-wen.com:5000
+
+# 复制 .env 模板并填入秘密
+Copy-Item client\.env.example client\.env                       # 填 MCP_API_KEY
+Copy-Item cloudsave-server\.env.example cloudsave-server\.env   # 按需填 ALLOWED_ORIGINS
 ```
 
 ### 开发机：构建并推送镜像
 
 ```powershell
-# 构建 + push 云存档（先做，因为前端 nginx 反代依赖它）
+# 构建 + push 云存档（先做，前端 nginx 反代到它的 docker 内网名 cloudsave）
 powershell -ExecutionPolicy Bypass -File .\cloudsave-server\rebuild.ps1
 
 # 构建 + push 前端
 powershell -ExecutionPolicy Bypass -File .\client\rebuild.ps1
 ```
+
+`rebuild.ps1` / `rebuild.sh` 都支持 `-NoPush` / `--no-push`（registry 不可达时只本机 build + up）。
 
 ### 部署机：拉取镜像并重启
 
@@ -55,7 +65,14 @@ powershell -ExecutionPolicy Bypass -File .\cloudsave-server\update-and-restart.p
 powershell -ExecutionPolicy Bypass -File .\client\update-and-restart.ps1
 ```
 
-访问：http://localhost:3091
+### 验证
+
+```bash
+curl -I http://localhost:3091/                          # 前端 SPA：200
+curl    http://localhost:3091/api/cloudsave/healthz     # nginx → cloudsave docker 内网：200
+curl    http://localhost:3091/api/mcp/health            # nginx → MCP 上游：200
+curl -I http://localhost:5105/healthz                   # cloudsave 直连：响应头含 X-Blessing
+```
 
 ## 给 Claude Code 的入口
 
