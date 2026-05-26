@@ -75,10 +75,25 @@ export function getPresetMeta(kind: LlmProviderKind): LlmProviderPresetMeta | un
  * 推断 baseUrl 属于哪个预设。用于用户粘贴一条 URL 后自动选中正确的
  * Provider；匹配失败回落 "custom"，让用户走自由编辑路径。
  */
+/**
+ * Qiny 在两个域名下都对外提供同一套 OpenAI 兼容接口。设置面板里以
+ * `.COM / .icu` 单选切换 baseUrl，inferProvider 也要把两条域名都映射回 qiny。
+ */
+export const QINY_BASE_URLS = {
+  com: "https://openai.chatnewai.com/v1",
+  icu: "https://love.qinyan.icu/v1",
+} as const;
+
+export type QinyBaseKey = keyof typeof QINY_BASE_URLS;
+
+export function getQinyBaseKey(baseUrl: string): QinyBaseKey {
+  return (baseUrl || "").toLowerCase().includes("qinyan.icu") ? "icu" : "com";
+}
+
 export function inferProvider(baseUrl: string): LlmProviderKind {
   const lower = (baseUrl || "").toLowerCase();
   if (!lower) return "custom";
-  if (lower.includes("chatnewai.com")) return "qiny";
+  if (lower.includes("chatnewai.com") || lower.includes("qinyan.icu")) return "qiny";
   if (lower.includes("generativelanguage.googleapis.com")) return "gemini";
   if (lower.includes("anthropic.com")) return "anthropic";
   if (lower.includes("api.openai.com")) return "openai";

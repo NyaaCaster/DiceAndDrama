@@ -39,7 +39,12 @@ import {
   ApiHttpError,
 } from "../services/llm/api";
 import { runHealthCheck } from "../services/llm/modelHealth";
-import { getPresetMeta } from "../services/llm/providers";
+import {
+  getPresetMeta,
+  getQinyBaseKey,
+  QINY_BASE_URLS,
+  type QinyBaseKey,
+} from "../services/llm/providers";
 import { ping, type McpHealth } from "../services/mcp/mcpApi";
 import type {
   LlmSettingsSnapshot,
@@ -374,28 +379,39 @@ function ProviderDetail({
         />
       </div>
 
-      <Field label="API 地址">
-        <input
-          type="text"
-          value={provider.baseUrl}
-          onChange={(e) => setField("baseUrl", e.target.value)}
-          onBlur={() => setField("baseUrl", normalizeBaseUrl(provider.baseUrl))}
-          disabled={!baseUrlEditable}
-          className="w-full px-4 py-3 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-[#1A1A1A] text-gray-900 dark:text-gray-100 outline-none transition-all font-mono disabled:opacity-60"
-        />
-        <FieldHint>
-          {baseUrlEditable
-            ? "本地 / 自托管端点。失焦时自动去除尾部 /chat/completions 等冗余后缀。"
-            : "官方 endpoint，固定不可改。"}
-        </FieldHint>
-      </Field>
+      {provider.kind === "qiny" ? (
+        <Field label="API 地址">
+          <QinyBaseUrlSwitch
+            value={provider.baseUrl}
+            onChange={(url) => setField("baseUrl", url)}
+          />
+          <FieldHint>QinyAPI 双线路，任选其一可用即可。</FieldHint>
+        </Field>
+      ) : baseUrlEditable ? (
+        <Field label="API 地址">
+          <input
+            type="text"
+            value={provider.baseUrl}
+            onChange={(e) => setField("baseUrl", e.target.value)}
+            onBlur={() => setField("baseUrl", normalizeBaseUrl(provider.baseUrl))}
+            className="w-full px-4 py-3 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-[#1A1A1A] text-gray-900 dark:text-gray-100 outline-none transition-all font-mono"
+          />
+          <FieldHint>
+            本地 / 自托管端点。失焦时自动去除尾部 /chat/completions 等冗余后缀。
+          </FieldHint>
+        </Field>
+      ) : null}
 
       <Field
         label="API Key"
         actionSlot={
           provider.kind === "qiny" && (
             <a
-              href="https://openai.chatnewai.com/register?aff=btB0"
+              href={
+                getQinyBaseKey(provider.baseUrl) === "icu"
+                  ? "https://love.qinyan.icu/register?aff=btB0"
+                  : "https://openai.chatnewai.com/register?aff=btB0"
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="text-[11px] font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors"
@@ -504,6 +520,52 @@ function ProviderDetail({
 function truncate(s: string, n: number): string {
   if (s.length <= n) return s;
   return s.slice(0, n) + "…";
+}
+
+/**
+ * Qiny 双线路切换。两条 URL 都对外提供同一套 OpenAI 兼容接口，玩家
+ * 选哪条由网络环境决定（哪条通用哪条），所以面板里只暴露 `.COM /
+ * .icu` 单选按钮，不显示完整 URL 输入框。
+ */
+function QinyBaseUrlSwitch({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+}) {
+  const current: QinyBaseKey = getQinyBaseKey(value);
+  const options: { key: QinyBaseKey; label: string }[] = [
+    { key: "com", label: ".COM" },
+    { key: "icu", label: ".icu" },
+  ];
+  return (
+    <div
+      role="radiogroup"
+      aria-label="QinyAPI 线路"
+      className="inline-flex rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#1A1A1A] p-1 gap-1"
+    >
+      {options.map((opt) => {
+        const active = current === opt.key;
+        return (
+          <button
+            key={opt.key}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            onClick={() => onChange(QINY_BASE_URLS[opt.key])}
+            className={`px-4 py-2 rounded-lg text-sm font-mono transition-colors ${
+              active
+                ? "bg-blue-500 text-white shadow-sm"
+                : "text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-white/5"
+            }`}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
+    </div>
+  );
 }
 
 /**
