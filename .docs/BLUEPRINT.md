@@ -118,23 +118,23 @@ M1 双仓地基 + 镜像分发
 
 **完成判定**：让 LLM 演一次"力量检定"，能看到工具调用日志、像素骰子动画、最终叙事中引用的骰值与工具返回完全一致。
 
-### M4 · DSL 叙事引擎 ⬜
+### M4 · DSL 叙事引擎 ✅  _完成于 2026-05-27_
 
 **目标**：四块 DSL 解析、SceneRunner 状态机、Nyaa 表情控制器全部就绪；把"先调骰子再叙事"作为强约束写入 system prompt。
 
 > **KoPP2 参考链**：本里程碑要落地"事件总线 → Nyaa 元吐槽触发器"架构，灵感来自 KoPP2 的 `StatsCenter` 静态事件中心。详见 `.ref/kopp2_rf/01-mechanics.md` 第十一节、`.ref/kopp2_rf/02-adoption-notes.md` 第四节。**不要抄 KoPP2 的 30+ Action 字面表**——本项目按自己需要列出 ~20 个领域事件（`skill-used` / `monster-killed` / `dice-rolled` / `place-first-visit` / `spent-gold` …），用 `mitt` 重写一份 typed 事件总线。
 
-- [ ] `.docs/dsl-spec.md`：DSL 四块格式规范（含容错、转义、空块语义）
-- [ ] `engine/parseSceneBlocks.ts`：解析 `[DM_VISUAL]` / `[DIALOGUE]` / `[GAME_STATE]` / `[ACTION_PROMPT]`，缺块容错 + 单测
-- [ ] `engine/SceneRunner.ts`：串联多回合 Scene，记录玩家选择、与 LocalStorage 绑定
-- [ ] `engine/dmExpressionMap.ts`：DMVisual 文本 → Nyaa 精灵帧动画的关键词映射
-- [ ] `services/events/gameEvents.ts`：基于 `mitt` 的 typed 领域事件总线（参照 `.ref/kopp2_rf/02-adoption-notes.md` 第四节"设计映射"表，**重新设计**事件名与 payload 形状，不照搬）
-- [ ] `services/dm/sarcasmTrigger.ts`：把领域事件翻译成"待 Nyaa 吐槽事件"队列，下次 `runDmTurn()` 调用时作为 `userText` 注入
-- [ ] `components/Typewriter.tsx` + `DialogueLog.tsx` + `ChoicePanel.tsx`
-- [ ] system prompt（写入 `services/llm/dmSystemPrompt.ts`）：固化输出格式、骰子先行约束、Nyaa 人格
-- [ ] 全套四块输出的端到端 happy path
+- [x] `.docs/dsl-spec.md`：DSL 四块格式规范（含容错、转义、空块语义）
+- [x] `engine/parseSceneBlocks.ts`：解析 `[DM_VISUAL]` / `[DIALOGUE]` / `[GAME_STATE]` / `[ACTION_PROMPT]`，缺块容错 + 单测
+- [x] `engine/SceneRunner.ts`：串联多回合 Scene，记录玩家选择（持久化属 M7 双轨范围，M4 仅内存模型）
+- [x] `engine/dmExpressionMap.ts`：DMVisual 文本 → Nyaa 精灵帧动画的关键词映射（M4 用 emoji 占位，M5 替精灵图时只动渲染层、不动 map key）
+- [x] `services/events/gameEvents.ts`：基于 `mitt` 的 typed 领域事件总线（参照 `.ref/kopp2_rf/02-adoption-notes.md` 第四节"设计映射"表，**重新设计**事件名与 payload 形状，不照搬）
+- [x] `services/dm/sarcasmTrigger.ts`：把领域事件翻译成"待 Nyaa 吐槽事件"队列，下次 `runDmTurn()` 调用时作为 `userText` 注入
+- [x] `components/Typewriter.tsx` + `DialogueLog.tsx` + `ChoicePanel.tsx`
+- [x] system prompt（写入 `services/llm/dmSystemPrompt.ts`）：固化输出格式、骰子先行约束、Nyaa 人格
+- [x] 全套四块输出的端到端 happy path（沙盒双 Tab：手输 DSL 解析 + LLM 真跑流式四块）
 
-**完成判定**：随手输入一条玩家行动，LLM 返回的四块 DSL 能被引擎完整解析并驱动 UI；DMVisual 正确触发 Nyaa 表情切换；连续 2 次 1 点骰会通过事件总线 → 吐槽队列触发 Nyaa 一句"你这运气是把骰子供起来当祖宗了？"级别的吐槽。
+**完成判定**：随手输入一条玩家行动，LLM 返回的四块 DSL 能被引擎完整解析并驱动 UI；DMVisual 正确触发 Nyaa 表情切换；连续 2 次 1 点骰会通过事件总线 → 吐槽队列触发 Nyaa 一句"你这运气是把骰子供起来当祖宗了？"级别的吐槽。✅
 
 ### M5 · 像素美术资产 ⬜
 
@@ -289,3 +289,4 @@ M1 双仓地基 + 镜像分发
 | 2026-05-26 | M1 完成：双仓骨架 + Docker pipeline + registry `h.hony-wen.com:5000` push 跑通 + cloudsave 完整后端（schema / auth / saves / 乐观并发 / X-Blessing 头）；M7 服务端 5 项随 M1 提前完成；M2 进入 🟡 | _待 commit_ |
 | 2026-05-27 | M2 完成：`services/llm/{types,providers,api,mcpRules,runDmTurn,modelHealth,storage}.ts` 全部到位；设置面板含 Provider 增删/排序（dnd-kit）/ 健康测试 / 模型刷新 / Qiny 注册链接；lobehub 品牌图标 + Keeper 来源的高质 Qiny 云朵图标；App.tsx 沙盒可流式发送 prompt；signature grep 双 hit | _待 commit_ |
 | 2026-05-27 | M3 完成：`services/mcp/{mcpApi,diceTools}.ts` + `components/DiceRoller.tsx`；广告范围收敛到 `roll_dnd` 一件套（CoC 调查向 / 通用骰式不在本作语境）；LlmSettingsModal 顶栏新增 MCP `/api/mcp/health` 探活条；App.tsx 沙盒接 `buildDiceToolUseOptions` 工具循环 + 工具日志面板 + 力量检定 demo 按钮；最终骰点经 `extractFinalRollValue` 抽出后驱动 DiceRoller 像素动画定格；signature grep 双 hit | _待 commit_ |
+| 2026-05-27 | M4 完成：四块 DSL 解析（缺块容错 + warnings）+ `mitt` typed 事件总线 + 吐槽队列 + `dmSystemPrompt` builder + `SceneRunner`（内存历史 + 上下文窗口 6 + drain 吐槽队列注入 system 段）+ `Typewriter`/`DialogueLog`/`ChoicePanel` 三件套 + 表情 emoji 占位（8 key 与 M5 精灵图同 schema）+ 沙盒双 Tab（手输 DSL 解析预览 / LLM 真跑流式四块）；vitest 28 用例全绿；持久化属 M7 双轨范围，M4 仅内存模型 | _待 commit_ |

@@ -28,8 +28,10 @@ DiceAndDrama/
 │  │  ├─ scenes/           ← FantasyView / TableView / BattleView / MapView
 │  │  ├─ engine/           ← parseSceneBlocks / SceneRunner / dmExpressionMap
 │  │  ├─ services/
-│  │  │  ├─ llm/           ← runDmTurn / providers / api（移植自 NyaaChat）
+│  │  │  ├─ llm/           ← runDmTurn / providers / api / dmSystemPrompt / mcpRules（移植自 NyaaChat + M4 扩展）
 │  │  │  ├─ mcp/           ← mcpApi + diceTools
+│  │  │  ├─ events/        ← gameEvents（mitt typed bus，M4 落地）
+│  │  │  ├─ dm/            ← sarcasmTrigger（领域事件 → 元吐槽队列，M4 落地）
 │  │  │  └─ save/          ← localSave + cloudSave + syncManager
 │  │  ├─ content/          ← *.scene.md（DSL 剧本）+ characterCards.ts
 │  │  ├─ assets/pixel/     ← Nyaa 精灵 + 怪物 + 场景 + UI Kit + manifest.json
@@ -104,11 +106,19 @@ DSL 详细规范（容错、转义、空块语义）见 `.docs/dsl-spec.md`（M3
 ```
 玩家浏览器
   ├─ apiSettings (LocalStorage：LLM Provider/Key/Model)
-  ├─ services/llm/dmSystemPrompt.ts → 固化 Nyaa 人格 + 骰子先行约束 + 四块输出契约
-  ├─ services/llm/runDmTurn.ts      → 调用统一 LLM 接口（流式 + tool-use 多轮）
-  └─ services/llm/api.ts            → 直连上游
-       ├─ openai-兼容 → {base}/chat/completions  （qiny/openai/deepseek/gemini-oai/ollama）
-       └─ anthropic   → {base}/v1/messages       （cache_control 注入）
+  ├─ engine/SceneRunner.ts          → 玩家输入 → 串联多回合 → 推 history → emit dm-turn-completed
+  │     ├─ services/dm/sarcasmTrigger.ts → drainSarcasmQueue() 把"待吐槽事件"作为 system 段附加
+  │     ├─ services/llm/dmSystemPrompt.ts → Nyaa 人格 + 四块 DSL 契约 + MCP 规则段 + 吐槽注入
+  │     ├─ services/llm/runDmTurn.ts → 流式调上游 + tool-use 多轮
+  │     │     └─ services/llm/api.ts → 直连上游
+  │     │            ├─ openai-兼容 → {base}/chat/completions  （qiny/openai/deepseek/gemini-oai/ollama）
+  │     │            └─ anthropic   → {base}/v1/messages       （cache_control 注入）
+  │     └─ engine/parseSceneBlocks.ts → 四块 DSL 容错解析（缺块 → 空字段 + warnings[]）
+  │            └─ DialogueLog / ChoicePanel / DiceRoller 渲染（订阅 gameEvents）
+  └─ services/events/gameEvents.ts  ← typed mitt 总线，~20 事件
+        ├─ dice-rolled    （diceTools.onToolEvent emit → DiceRoller 翻面 + sarcasmTrigger 收集）
+        ├─ choice-picked / free-text-submitted （ChoicePanel emit）
+        └─ dm-turn-completed / dm-parse-warning（SceneRunner emit）
 
 LLM 调用工具时 → services/mcp/mcpApi.ts → /api/mcp（nginx 反代）→ NyaaChat-MCP
                                                             roll_dnd（仅 d20 检定族）
@@ -118,6 +128,7 @@ LLM 调用工具时 → services/mcp/mcpApi.ts → /api/mcp（nginx 反代）→
 **重要**：
 - 所有 LLM `apiKey` 只在 LocalStorage，每次随 body 发；**服务端不持久化任何 LLM 凭据**
 - MCP `Bearer` 由 nginx 在转发时注入，**永不出现在前端 bundle 里**
+- `gameEvents` 是 M4 起的统一事件入口；UI 不直接调 `setState` 联动骰子动画，全部走 `gameEvents.on('dice-rolled', ...)`
 
 ## 云存档架构（M7）
 
@@ -178,8 +189,12 @@ client/src/services/llm/
   ├─ mcpRules.ts         ← 骰子规则段（注入 system prompt）
   ├─ modelHealth.ts      ← 健康探活（OpenAI/Anthropic 双格式 ping）
   ├─ storage.ts          ← LocalStorage 持久化（key=dicedrama:llm-settings）
-  ├─ dmSystemPrompt.ts   ← Nyaa 人格 + 骰子先行 + 四块契约（M4 落地）
+  ├─ dmSystemPrompt.ts   ← Nyaa 人格 + 四块 DSL 契约 + MCP 规则 + 吐槽注入（M4）
   └─ runDmTurn.ts        ← 顶层接口（直接包 fetchChatCompletion）
+client/src/services/events/
+  └─ gameEvents.ts       ← mitt typed bus（~20 事件，M4 活跃 6 个，余 14 个 M6 上线）
+client/src/services/dm/
+  └─ sarcasmTrigger.ts   ← installSarcasmTriggers / drainSarcasmQueue（连续大失败 / 暴击 / DM 走神）
 client/src/components/
   ├─ BaseModal.tsx       ← ESC 关闭 + Tab 焦点陷阱 + body 滚动锁
   ├─ LlmSettingsModal.tsx ← Provider 增删/排序/启停/健康测试/模型刷新
@@ -193,16 +208,16 @@ client/src/services/mcp/
   ├─ mcpApi.ts           ← JSON-RPC over SSE（移植自 NyaaChat）
   └─ diceTools.ts        ← roll_dnd 工具描述 + 最终骰点抽取
 client/src/engine/
-  ├─ parseSceneBlocks.ts ← 四块 DSL 解析器
-  ├─ SceneRunner.ts      ← Scene 状态机
-  └─ dmExpressionMap.ts  ← DMVisual → Nyaa 精灵帧动画映射
+  ├─ parseSceneBlocks.ts ← 四块 DSL 容错解析（缺块 → 空字段 + warnings[]）
+  ├─ SceneRunner.ts      ← Scene 状态机（内存历史；持久化属 M7 双轨范围）
+  └─ dmExpressionMap.ts  ← 8 表情 key → emoji + 中文 label（M5 替精灵图时只动渲染层）
 client/src/components/
-  ├─ NyaaSprite.tsx      ← 8 表情精灵渲染器
-  ├─ DiceRoller.tsx      ← 像素掷骰动画（结果由 MCP 决定）
-  ├─ Typewriter.tsx      ← 打字机
-  ├─ ChoicePanel.tsx     ← 3-4 选项按钮
-  ├─ FantasyView.tsx     ← 奇幻冒险层
-  └─ TableView.tsx       ← 现实围桌层
+  ├─ Typewriter.tsx      ← 打字机（外部 text 变化时复位 + instant 模式给历史回合）
+  ├─ DialogueLog.tsx     ← SceneCard 列表 + NyaaSprite emoji 占位 + StreamingRawCard
+  ├─ ChoicePanel.tsx     ← choices 按钮（≤4）/ free-text 输入 / none "继续"按钮
+  ├─ DiceRoller.tsx      ← 像素掷骰动画（订阅 gameEvents.dice-rolled，由 MCP 决定）
+  ├─ FantasyView.tsx     ← 奇幻冒险层（M5）
+  └─ TableView.tsx       ← 现实围桌层（M5）
 client/src/services/save/
   ├─ localSave.ts        ← LocalStorage 三槽
   ├─ cloudSave.ts        ← /api/cloudsave/v1 调用
