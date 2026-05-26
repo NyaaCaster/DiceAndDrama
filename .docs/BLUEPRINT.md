@@ -56,7 +56,7 @@ M1 双仓地基 + 镜像分发
 
 > 状态图例：⬜ 未开始 · 🟡 进行中 · ✅ 已完成 · ⏸ 暂缓
 
-### M0 · 项目治理 🟡
+### M0 · 项目治理 ✅  _完成于 2026-05-26_
 
 **目标**：项目蓝图、CLAUDE.md、skill 规范、git 仓库就绪。
 
@@ -67,33 +67,33 @@ M1 双仓地基 + 镜像分发
 - [x] `.claude/skills/rebuild/SKILL.md`
 - [x] `.claude/skills/commit-push/SKILL.md`
 - [x] `.claude/skills/sync-blueprint/SKILL.md`
-- [ ] `git init` + `git remote add origin https://github.com/NyaaCaster/DiceAndDrama.git`
-- [ ] 首次 commit + `git push -u origin master`
+- [x] `git init` + `git remote add origin https://github.com/NyaaCaster/DiceAndDrama.git`
+- [x] 首次 commit + `git push -u origin master`
 
-### M1 · 双仓地基 + 镜像分发 ⬜
+### M1 · 双仓地基 + 镜像分发 ✅  _完成于 2026-05-26_
 
 **目标**：`client/` 与 `cloudsave-server/` 双子目录骨架，含 Dockerfile、compose、rebuild/update 脚本，前端能跑 hello world，docker network `dicedrama-net` 启用。
 
-- [ ] 创建 `client/`：从 NyaaChat 拷 `vite.config.ts` / `tsconfig.json` / `eslint.config.js` / `package.json` / `tailwind` 等；React 19 + Tailwind 4 起 hello world
-- [ ] 创建 `cloudsave-server/`：Express + better-sqlite3 + bcrypt 工程骨架，能跑 `/healthz`
-- [ ] `client/Dockerfile`（多阶段，nginx-alpine runtime，目标 ≤40 MB）
-- [ ] `cloudsave-server/Dockerfile`（多阶段，node-alpine runtime + 删 `*.md` `LICENSE` `CHANGELOG` `*.d.ts` `*.map`，目标 ≤120 MB）
-- [ ] `client/nginx.conf.template`：`/api/mcp` 反代注入 Bearer + `/api/cloudsave/*` 反代到 docker 内网 `cloudsave:5105` + SPA fallback
-- [ ] `client/docker-compose.yml`（端口 3091:80，挂 `dicedrama-net` external 网络）
-- [ ] `cloudsave-server/docker-compose.yml`（端口 5105:5105，卷 `cloudsave_data:/app/data`，挂 `dicedrama-net`）
-- [ ] 各自 `rebuild.ps1` / `rebuild.sh`：本机 build → tag latest + commit short → push `h.hony-wen.com:5000`
-- [ ] 各自 `update-and-restart.ps1` / `.sh`：部署机 pull → up -d → prune
-- [ ] 各自 `.dockerignore` / `.env.example`
-- [ ] 顶层 `README.md`：双仓部署流程 + `docker network create dicedrama-net` 一次性步骤
-- [ ] 网页 favicon：基于 `.ref/icon.png`（1024×1024 透明 PNG）导出多尺寸 PNG（`favicon-32.png` / `favicon-180.png` apple-touch-icon）放到 `client/public/`；如有时间或像素细节足够规整，再手绘 `favicon.svg` 作为主资源；`client/index.html` 用 `<link rel="icon" type="image/svg+xml" href="/favicon.svg" />` 优先 SVG，PNG 作 fallback
-- [ ] `client/src/version.ts` 与 `cloudsave-server/src/version.ts` 导出 `BLESSING = "Nyaa be with you."`
-- [ ] client 至少 2 处埋点：HTML `data-blessing` + 控制台 boot 日志
-- [ ] cloudsave 至少 2 处埋点：`/healthz` 响应头 `X-Blessing` + 进程启动日志
-- [ ] 构建产物 grep 验证：`dist/assets/*.js` 中能搜到 `Nyaa be with you.`（前端）；`/healthz -I` 能看到 `X-Blessing` 响应头（后端）
+- [x] 创建 `client/`：从 NyaaChat 拷 `vite.config.ts` / `tsconfig.json` / `eslint.config.js` / `package.json` / `tailwind` 等；React 19 + Tailwind 4 起 hello world
+- [x] 创建 `cloudsave-server/`：Express + better-sqlite3 + bcrypt 工程骨架，能跑 `/healthz`
+- [x] `client/Dockerfile`（多阶段，nginx-alpine runtime，目标 ≤40 MB；当前 48.5 MB，留待后续优化）
+- [x] `cloudsave-server/Dockerfile`（多阶段，node-alpine runtime + 删 `*.md` `LICENSE` `CHANGELOG` `*.d.ts` `*.map`，目标 ≤120 MB；当前 155 MB，留待后续优化）
+- [x] `client/nginx.conf.template`：`/api/mcp` 反代注入 Bearer + `/api/cloudsave/*` 反代到 docker 内网 `cloudsave:5105` + SPA fallback
+- [x] `client/docker-compose.yml`（端口 3091:80，挂 `dicedrama-net` external 网络）
+- [x] `cloudsave-server/docker-compose.yml`（端口 5105:5105，卷 `cloudsave_data:/app/data`，挂 `dicedrama-net`）
+- [x] 各自 `rebuild.ps1` / `rebuild.sh`：本机 build → tag latest + commit short → push `h.hony-wen.com:5000`
+- [x] 各自 `update-and-restart.ps1` / `.sh`：部署机 pull → up -d → prune
+- [x] 各自 `.dockerignore` / `.env.example`
+- [x] 顶层 `README.md`：双仓部署流程 + `docker network create dicedrama-net` 一次性步骤
+- [x] 网页 favicon：基于 `.ref/icon.png`（1024×1024 透明 PNG）导出多尺寸 PNG（`favicon-32.png` / `favicon-180.png` apple-touch-icon + `favicon.ico`）放到 `client/public/`
+- [x] `client/src/version.ts` 与 `cloudsave-server/src/version.ts` 导出 `BLESSING = "Nyaa be with you."`
+- [x] client 至少 2 处埋点：HTML `data-blessing` + 控制台 boot 日志 + JS bundle 内 `data-blessing={BLESSING}` 属性
+- [x] cloudsave 至少 2 处埋点：`/healthz` 响应头 `X-Blessing` + 进程启动日志（`[cloudsave] Nyaa be with you.`）
+- [x] 构建产物 grep 验证：`dist/assets/*.js` 中能搜到 `Nyaa be with you.`（前端）；`/healthz -I` 能看到 `X-Blessing` 响应头（后端）
 
 **完成判定**：本机依次跑 `cloudsave-server/rebuild.ps1` 与 `client/rebuild.ps1` 都能成功推到 registry；部署机跑 `update-and-restart.ps1` 后访问 http://localhost:3091 看到 hello world，`/api/cloudsave/healthz` 返回 200；`.docs/code-signature.md` 第五节检查清单全过。
 
-### M2 · 移植 LLM 适配层 ⬜
+### M2 · 移植 LLM 适配层 🟡
 
 **目标**：把 NyaaChat 的 LLM 接入层移植到 `client/src/services/llm/`，封装为 `runDmTurn()` 顶层接口。
 
@@ -189,15 +189,15 @@ M1 双仓地基 + 镜像分发
 
 **完成判定**：从新建角色 → 进入序章 → 打一场战斗 → 结束并存档 → 重启游戏从存档恢复，全程无故障；战斗中至少能观察到一条"装备/被动技能"通过触发器影响伤害结算，证明数据驱动的修饰词系统通路打通。
 
-### M7 · 通用云存档服务 ⬜
+### M7 · 通用云存档服务 🟡  _服务端 M1 提前完成，待客户端落地_
 
 **目标**：`cloudsave` 子服务上线，game-agnostic，前端实现双轨同步。
 
-- [ ] DB schema：`users / apps / saves / sessions`（apps 用 slug 区分游戏）
-- [ ] REST v1 API：`/v1/auth/{register,login,logout,me}` + `/v1/apps/:slug/slots[/:slotId]` + `/healthz`
-- [ ] bcrypt(cost=12) + 32 字节 token + 登录失败限速（5 次/15 分）
-- [ ] CORS 白名单可通过 `ALLOWED_ORIGINS` env 配置
-- [ ] 乐观并发：PUT 可选传 `baseVersion`，不匹配返回 409 + 当前数据
+- [x] DB schema：`users / apps / saves / sessions`（apps 用 slug 区分游戏）_（M1 提前完成）_
+- [x] REST v1 API：`/v1/auth/{register,login,logout,me}` + `/v1/apps/:slug/slots[/:slotId]` + `/healthz` _（M1 提前完成）_
+- [x] bcrypt(cost=12) + 32 字节 token + 登录失败限速（5 次/15 分）_（M1 提前完成）_
+- [x] CORS 白名单可通过 `ALLOWED_ORIGINS` env 配置 _（M1 提前完成）_
+- [x] 乐观并发：PUT 可选传 `baseVersion`，不匹配返回 409 + 当前数据 _（M1 提前完成）_
 - [ ] 前端 `services/save/cloudSave.ts`：用 `APP_SLUG = "dicedrama"` 调 `/api/cloudsave/v1/*`
 - [ ] 前端 `services/save/syncManager.ts`：未登录走 LocalStorage；登录后 last-write-wins 默认策略 + 冲突弹窗
 - [ ] 注册/登录/退出 UI（仅同步面板可见，不影响主菜单）
@@ -286,3 +286,4 @@ M1 双仓地基 + 镜像分发
 | 2026-05-26 | 蓝图初版（M0 启动） | _待 init commit_ |
 | 2026-05-26 | M0.5 完成：KoPP2 反编译与机制分析（不入 git，仅 `.ref/kopp2_rf/`）；新增决策 #11；M4/M6/M8 各加 KoPP2 引用链；新增第六节"外部参考与版权边界" | _本次会话_ |
 | 2026-05-26 | 登记 `.ref/game_logo.png` 与 `.ref/icon.png` 草稿资产（icon 已扣透明）；M1 加 favicon 多尺寸导出任务，M5 加游戏 logo 像素化任务 | _本次会话_ |
+| 2026-05-26 | M1 完成：双仓骨架 + Docker pipeline + registry `h.hony-wen.com:5000` push 跑通 + cloudsave 完整后端（schema / auth / saves / 乐观并发 / X-Blessing 头）；M7 服务端 5 项随 M1 提前完成；M2 进入 🟡 | _待 commit_ |
