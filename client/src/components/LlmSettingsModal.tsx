@@ -40,6 +40,7 @@ import {
 } from "../services/llm/api";
 import { runHealthCheck } from "../services/llm/modelHealth";
 import { getPresetMeta } from "../services/llm/providers";
+import { ping, type McpHealth } from "../services/mcp/mcpApi";
 import type {
   LlmSettingsSnapshot,
 } from "../services/llm/storage";
@@ -47,10 +48,12 @@ import type { LlmProvider, ModelHealth } from "../services/llm/types";
 
 /**
  * Dice & Drama 简化版 LLM 设置面板。剪掉 NyaaChat 那套：
- *   - dnd-kit 排序：6 家预设固定，无需用户排序
  *   - 增删 provider：M2 阶段先不开放 custom 新建
  *   - 子模态 ManageModelsModal：合并到右栏的"刷新模型"按钮
- *   - 健康探活：放到 M3 MCP 接入时一并做
+ *
+ * 顶部固定 `<McpHealthStrip>` 显示 MCP 反代是否通——M3 才有意义，
+ * 在这里露脸是因为玩家通常配完 LLM 顺手就要试骰子。失败诊断：基本都是
+ * `.env` 里的 `MCP_API_KEY` 没填 / 与上游不一致 → nginx 401 透传。
  *
  * 保留的最小核心：provider 切换 / enabled toggle / baseUrl 编辑
  * （只有 baseUrlEditable=true 的预设可改）/ apiKey 输入 / 模型下拉。
@@ -124,6 +127,7 @@ export function LlmSettingsModal({
       titleIcon={<Cpu size={18} className="text-blue-500" />}
       maxWidth="max-w-4xl"
     >
+      <McpHealthStrip />
       <div className="grid grid-cols-1 sm:grid-cols-[14rem_1fr] min-h-[28rem]">
         <ProviderList
           providers={providers}
@@ -500,4 +504,71 @@ function ProviderDetail({
 function truncate(s: string, n: number): string {
   if (s.length <= n) return s;
   return s.slice(0, n) + "…";
+}
+
+/**
+ * MCP 健康探活条。固定显示在 LLM 设置面板顶部，方便玩家在配 LLM 之前
+ * 顺手确认 MCP 反代是否通——失败的话十有八九是 .env 里 `MCP_API_KEY`
+ * 没填或与上游不一致（nginx 401 透传）。打开模态时自动 ping 一次。
+ */
+function McpHealthStrip() {
+  const [health, setHealth] = useState<McpHealth | null>(null);
+  const [pinging, setPinging] = useState(false);
+
+  const runPing = async () => {
+    setPinging(true);
+    try {
+      setHealth(await ping());
+    } finally {
+      setPinging(false);
+    }
+  };
+
+  useEffect(() => {
+    void runPing();
+  }, []);
+
+  return (
+    <div className="px-5 sm:px-6 py-3 border-b border-gray-100 dark:border-white/5 bg-gray-50/60 dark:bg-white/[0.02]">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <span
+            className={`w-2 h-2 rounded-full flex-shrink-0 ${
+              health === null
+                ? "bg-gray-400"
+                : health.ok
+                  ? "bg-emerald-500"
+                  : "bg-red-500"
+            }`}
+            aria-hidden="true"
+          />
+          <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
+            MCP 反代
+          </span>
+          <span className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
+            {pinging
+              ? "探活中…"
+              : health === null
+                ? "尚未测试"
+                : health.ok
+                  ? `连通 · ${health.name ?? "MCP"}${health.version ? ` v${health.version}` : ""} · ${health.latencyMs} ms`
+                  : `不可达 · ${truncate(health.error, 80)}`}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={runPing}
+          disabled={pinging}
+          className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 disabled:opacity-60 disabled:cursor-not-allowed flex-shrink-0"
+        >
+          {pinging ? (
+            <Loader2 size={12} className="animate-spin" />
+          ) : (
+            <RefreshCw size={12} />
+          )}
+          重新探活
+        </button>
+      </div>
+    </div>
+  );
 }

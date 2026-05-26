@@ -14,7 +14,7 @@
 |---|---|
 | 前端 | Vite 6 + React 19 + TS 5.8 + Tailwind 4 + motion |
 | LLM | OpenAI / Anthropic / Gemini / DeepSeek / Qiny / Ollama（**全部浏览器直连**，凭据存 LocalStorage） |
-| 骰子 | NyaaChat-MCP `roll_dnd` / `roll_dice` / `roll_coc`，`crypto.randomInt` 真随机；项目内 nginx 反代隐藏 Bearer |
+| 骰子 | NyaaChat-MCP `roll_dnd`（D&D 风 d20 检定唯一上游），`crypto.randomInt` 真随机；项目内 nginx 反代隐藏 Bearer |
 | 云存档 | `cloudsave` 独立子服务（Express + better-sqlite3 + bcrypt），game-agnostic，按 `appSlug` 隔离 |
 | 部署 | 双 Docker 镜像，本机构建 push 到 `h.hony-wen.com:5000`；前端 3091 / 云存档 5105 |
 
@@ -111,7 +111,7 @@ DSL 详细规范（容错、转义、空块语义）见 `.docs/dsl-spec.md`（M3
        └─ anthropic   → {base}/v1/messages       （cache_control 注入）
 
 LLM 调用工具时 → services/mcp/mcpApi.ts → /api/mcp（nginx 反代）→ NyaaChat-MCP
-                                                            roll_dnd/roll_dice/roll_coc
+                                                            roll_dnd（仅 d20 检定族）
                                                             crypto.randomInt 真随机
 ```
 
@@ -191,7 +191,7 @@ client/src/components/
      └─ CustomProviderIcon.tsx ← 蓝色聊天气泡
 client/src/services/mcp/
   ├─ mcpApi.ts           ← JSON-RPC over SSE（移植自 NyaaChat）
-  └─ diceTools.ts        ← roll_dnd / roll_dice / roll_coc 工具描述
+  └─ diceTools.ts        ← roll_dnd 工具描述 + 最终骰点抽取
 client/src/engine/
   ├─ parseSceneBlocks.ts ← 四块 DSL 解析器
   ├─ SceneRunner.ts      ← Scene 状态机
@@ -232,7 +232,7 @@ cloudsave-server/src/
 ## 常见坑（容易踩、踩了贵）
 
 1. **不要把 MCP Bearer 暴露到前端**。它由 nginx 在 envsubst 模板里注入，前端代码永远只调用同源 `/api/mcp`。
-2. **不要让 LLM 自己编骰值**。system prompt 已强约束"必须先调 `roll_dnd` / `roll_dice`"，但仍要在前端解析 narrative 时检测可疑数字（如"我投了 17"但本回合没有 tool_call）→ 打 warn 并要求重投。
+2. **不要让 LLM 自己编骰值**。system prompt 已强约束"必须先调 `roll_dnd`"，但仍要在前端解析 narrative 时检测可疑数字（如"我投了 17"但本回合没有 tool_call）→ 打 warn 并要求重投。
 3. **不要往 cloudsave-server 加任何 dicedrama 特有字段**。它是 game-agnostic 的——所有业务字段全塞进 `saves.data` JSON。新游戏接入零代码改动。
 4. **不要在 client 里硬编码 cloudsave 地址**。客户端永远调同源 `/api/cloudsave/*`，由 nginx 决定上游。便于将来切换部署形态。
 5. **不要绕过 rebuild skill**。手动 `docker compose build` 会忘记打 commit tag，导致 registry 上只有 `latest` 没有版本回滚点。

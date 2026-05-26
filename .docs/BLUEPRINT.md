@@ -105,16 +105,16 @@ M1 双仓地基 + 镜像分发
 
 **完成判定**：在设置面板填入任意 OpenAI 兼容 Key，发送一条 prompt，能拿到流式回复。✅
 
-### M3 · MCP 骰子接入 ⬜
+### M3 · MCP 骰子接入 ✅  _完成于 2026-05-27_
 
-**目标**：完全无感地把 NyaaChat-MCP 的 `roll_dnd` / `roll_dice` / `roll_coc` 暴露给 LLM 作为可调用工具，骰值由 MCP 真随机决定。
+**目标**：完全无感地把 NyaaChat-MCP 的 `roll_dnd` 暴露给 LLM 作为可调用工具，骰值由 MCP 真随机决定。Dice & Drama 是 D&D 风奇幻冒险，不接 CoC 调查向的 `roll_coc`，也不接无判定语义的通用 `roll_dice`——伤害骰之类的次级随机由 DM 文字直接叙述。
 
-- [ ] 移植 `lib/mcpApi.ts` 到 `services/mcp/`（JSON-RPC over SSE）
-- [ ] `nginx.conf.template` 已含 `/api/mcp` 反代 + envsubst 注入 `MCP_API_KEY`
-- [ ] `services/mcp/diceTools.ts`：把 MCP 三个工具按 `LlmTool` 形状暴露给 LLM
-- [ ] `components/DiceRoller.tsx`：像素掷骰动画，结果由 MCP 返回值驱动（前端只演不算）
-- [ ] system prompt 中钉死："任何检定必须先调用 `roll_dnd` / `roll_dice` 拿到骰值再叙事，禁止编造骰值"
-- [ ] `/api/mcp/health` 健康探活按钮在设置面板暴露
+- [x] 移植 `lib/mcpApi.ts` 到 `services/mcp/`（JSON-RPC over SSE）
+- [x] `nginx.conf.template` 已含 `/api/mcp` 反代 + envsubst 注入 `MCP_API_KEY`
+- [x] `services/mcp/diceTools.ts`：把 `roll_dnd` 按 `LlmTool` 形状暴露给 LLM
+- [x] `components/DiceRoller.tsx`：像素掷骰动画，结果由 MCP 返回值驱动（前端只演不算）
+- [x] system prompt 中钉死："任何检定必须先调用 `roll_dnd` 拿到骰值再叙事，禁止编造骰值"
+- [x] `/api/mcp/health` 健康探活按钮在设置面板暴露
 
 **完成判定**：让 LLM 演一次"力量检定"，能看到工具调用日志、像素骰子动画、最终叙事中引用的骰值与工具返回完全一致。
 
@@ -288,3 +288,4 @@ M1 双仓地基 + 镜像分发
 | 2026-05-26 | 登记 `.ref/game_logo.png` 与 `.ref/icon.png` 草稿资产（icon 已扣透明）；M1 加 favicon 多尺寸导出任务，M5 加游戏 logo 像素化任务 | _本次会话_ |
 | 2026-05-26 | M1 完成：双仓骨架 + Docker pipeline + registry `h.hony-wen.com:5000` push 跑通 + cloudsave 完整后端（schema / auth / saves / 乐观并发 / X-Blessing 头）；M7 服务端 5 项随 M1 提前完成；M2 进入 🟡 | _待 commit_ |
 | 2026-05-27 | M2 完成：`services/llm/{types,providers,api,mcpRules,runDmTurn,modelHealth,storage}.ts` 全部到位；设置面板含 Provider 增删/排序（dnd-kit）/ 健康测试 / 模型刷新 / Qiny 注册链接；lobehub 品牌图标 + Keeper 来源的高质 Qiny 云朵图标；App.tsx 沙盒可流式发送 prompt；signature grep 双 hit | _待 commit_ |
+| 2026-05-27 | M3 完成：`services/mcp/{mcpApi,diceTools}.ts` + `components/DiceRoller.tsx`；广告范围收敛到 `roll_dnd` 一件套（CoC 调查向 / 通用骰式不在本作语境）；LlmSettingsModal 顶栏新增 MCP `/api/mcp/health` 探活条；App.tsx 沙盒接 `buildDiceToolUseOptions` 工具循环 + 工具日志面板 + 力量检定 demo 按钮；最终骰点经 `extractFinalRollValue` 抽出后驱动 DiceRoller 像素动画定格；signature grep 双 hit | _待 commit_ |
