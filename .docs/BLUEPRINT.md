@@ -85,6 +85,7 @@ M1 双仓地基 + 镜像分发
 - [ ] 各自 `update-and-restart.ps1` / `.sh`：部署机 pull → up -d → prune
 - [ ] 各自 `.dockerignore` / `.env.example`
 - [ ] 顶层 `README.md`：双仓部署流程 + `docker network create dicedrama-net` 一次性步骤
+- [ ] 网页 favicon：基于 `.ref/icon.png`（1024×1024 透明 PNG）导出多尺寸 PNG（`favicon-32.png` / `favicon-180.png` apple-touch-icon）放到 `client/public/`；如有时间或像素细节足够规整，再手绘 `favicon.svg` 作为主资源；`client/index.html` 用 `<link rel="icon" type="image/svg+xml" href="/favicon.svg" />` 优先 SVG，PNG 作 fallback
 - [ ] `client/src/version.ts` 与 `cloudsave-server/src/version.ts` 导出 `BLESSING = "Nyaa be with you."`
 - [ ] client 至少 2 处埋点：HTML `data-blessing` + 控制台 boot 日志
 - [ ] cloudsave 至少 2 处埋点：`/healthz` 响应头 `X-Blessing` + 进程启动日志
@@ -145,6 +146,7 @@ M1 双仓地基 + 镜像分发
 - [ ] 桌面场景（俯视/侧视）+ 奇幻地图 4 节点 + 战斗地块
 - [ ] 8 只怪物：史莱姆 / 骷髅 / 哥布林 / 蝙蝠 / 巨鼠 / 巫师 / 龙 / Boss
 - [ ] 像素 UI Kit：9-slice 边框、像素字体（开源 `Press Start 2P` 或 `VT323`）、按钮三态
+- [ ] 游戏主 logo：以 `.ref/game_logo.png` 为参考重绘为像素风正式资产（透明背景 PNG + SVG 双版本），落到 `client/src/assets/pixel/logo/`，用于启动画面与主菜单标题
 - [ ] `assets/pixel/manifest.json` 索引全部精灵
 - [ ] 响应式根布局：PC 横屏左右双栏（奇幻 ↔ 桌面），手机竖屏上下切换 + 顶部 Tab
 - [ ] `.docs/UI-STYLE-GUIDE.md`：配色铁律、像素网格、滚动条、字号
@@ -243,6 +245,8 @@ M1 双仓地基 + 镜像分发
 | 路径 | 内容 | 入 git？ | 主要服务的里程碑 |
 |---|---|---|---|
 | `.ref/pic/` | 设计参考图（Nyaa 形象 + KoPP2 截图） | ❌ | M5 |
+| `.ref/game_logo.png` | 游戏主 logo 草稿（待 M5 阶段适配为像素风正式资产并挪入 `client/src/assets/`） | ❌ | M5 |
+| `.ref/icon.png` | 网页 favicon 草稿（1024×1024 透明 PNG，已扣背景）；M1 落地时由它导出多尺寸 favicon，并酌情手绘成 SVG 以获得任意分辨率清晰度 | ❌ | M1 |
 | `.ref/kopp2_rf/01-mechanics.md` | KoPP2 反编译机制总结：属性体系、衍生公式、攻击流程、抵抗骰、状态、22 种技能触发、41+ 物品属性、事件总线、14 种任务、随机遭遇 | ❌ | M4 / M6 / M8 |
 | `.ref/kopp2_rf/02-adoption-notes.md` | 每条机制的"复用 / 改造 / 抛弃 / 原创"决策表，按里程碑落点 | ❌ | M4 / M6 / M8 |
 | `.ref/kopp2_rf/README.md` | 反编译流程记录、版权边界、后续步骤 | ❌ | 全程 |
@@ -281,3 +285,4 @@ M1 双仓地基 + 镜像分发
 |---|---|---|
 | 2026-05-26 | 蓝图初版（M0 启动） | _待 init commit_ |
 | 2026-05-26 | M0.5 完成：KoPP2 反编译与机制分析（不入 git，仅 `.ref/kopp2_rf/`）；新增决策 #11；M4/M6/M8 各加 KoPP2 引用链；新增第六节"外部参考与版权边界" | _本次会话_ |
+| 2026-05-26 | 登记 `.ref/game_logo.png` 与 `.ref/icon.png` 草稿资产（icon 已扣透明）；M1 加 favicon 多尺寸导出任务，M5 加游戏 logo 像素化任务 | _本次会话_ |
