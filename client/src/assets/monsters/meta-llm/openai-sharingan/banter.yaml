@@ -11,11 +11,13 @@ encounter:
     expressionKey: ear-twitch
 
 midBattle:
-  - text: "它要念咒了……『神威』！『天照』！『须佐能乎』！我只记得这三个名字！"
-    expressionKey: smug
-  - text: "玩家们用『非视觉系』判定还击——比如听觉感知或者敏捷骰。视觉检定全部 -5。"
+  - text: "『幻觉视界』！它的眼睛在旋转 Nyaa——它一本正经地在篡改你们的卡牌说明！"
+    expressionKey: surprised
+  - text: "看那张『治疗术 +50』——别信！结算时还是按原效果对你扣血的，那是 AI 编出来的幻觉啊喵！！"
     expressionKey: eye-roll
-  - text: "为什么瞳孔里还有 3 个小逗号转啊转的，看着看着我都困了……"
+  - text: "解法是 INT / SAN 检定看穿幻觉——非视觉系判定不会被骗，听觉感知和敏捷骰这回合 +3。"
+    expressionKey: smug
+  - text: "为什么瞳孔里还有 3 个小逗号转啊转的，看着看着我都要被它说服了……快帮我掐一下！"
     expressionKey: sleepy
 
 defeat:

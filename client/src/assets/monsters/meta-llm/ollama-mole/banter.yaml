@@ -11,12 +11,14 @@ encounter:
     expressionKey: ear-twitch
 
 midBattle:
-  - text: "嘶——它缩回去了！下回合一定会从另一个洞冒出来，全员注意视野盲区！"
+  - text: "『本地部署！离线打地鼠』！可恶的本地进程！打掉一个又弹出来一个 Nyaa！"
     expressionKey: ear-twitch
-  - text: "顺便说一句，这家伙在本机部署的时候非常乖，野外遇到就完全不一样。"
-    expressionKey: eye-roll
-  - text: "我赌 5 个金币它下一次冒头会带着另一只——『一群地鼠』判定 +5 难度。"
+  - text: "嘶——它缩回去了，身上的 debuff 全被它『重启容器』洗掉了。下回合从另一个端口冒出来，全员注意视野盲区！"
+    expressionKey: surprised
+  - text: "解法是『端口实例押注』——我赌它下一次走 11434！谁猜对下一个端口，伤害直接翻倍！"
     expressionKey: smug
+  - text: "这根本不是在打怪，这明明是在跑没有断点的死循环 Debug 嘛！气死喵了！"
+    expressionKey: eye-roll
 
 defeat:
   - text: "搞定！地鼠羊驼归洞——记得把那个问号收起来留作纪念。"

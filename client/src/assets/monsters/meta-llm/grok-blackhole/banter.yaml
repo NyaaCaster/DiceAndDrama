@@ -11,12 +11,14 @@ encounter:
     expressionKey: eye-roll
 
 midBattle:
-  - text: "它在拉伸我们的攻击轨迹——所有远程攻击 -2，必须近战或者用穿越事件视界的咒语。"
-    expressionKey: smug
-  - text: "啊！我刚发的吐槽掉进去了！它现在被那个 X 当成训练语料了！"
+  - text: "『真理越线』！它把 safety guardrails 全拆了——这家伙完全不读安全准则的吗 Nyaa！"
     expressionKey: surprised
-  - text: "看那个吸积盘的颜色——这是颗刚吃饱的黑洞，下次出现可能会变两倍。"
+  - text: "场上所有角色（连它自己）都得随机丢一半防御卡——护栏没了，大家一起掉进混沌黑洞里去算了！"
     expressionKey: eye-roll
+  - text: "好处是我们攻击 +X，坏处是每回合自损 Y——纯对攻互撕模式，比的就是谁先被撕烂。"
+    expressionKey: smug
+  - text: "啊！我刚发的吐槽掉进去了！它现在被那个 X 当成训练语料了！真是个疯子马斯克克（X）！！"
+    expressionKey: surprised
 
 defeat:
   - text: "搞定。霍金辐射蒸发流程启动——我们就在它最虚弱的瞬间补上致命一击。"

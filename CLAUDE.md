@@ -2,7 +2,12 @@
 
 基于《Knights of Pen and Paper 2》设计的像素风元 TRPG 游戏，由白色双马尾、暗红双瞳、蓝衣的猫娘 `Nyaa` 担任 DM；同时呈现"奇幻冒险"与"现实围桌吐槽"两层叙事。
 
-> **每次开新会话先读** `.docs/.work/PROJECT-OVERVIEW.md`（架构快照）+ `.docs/BLUEPRINT.md`（当前阶段）+ 本文。
+> **每次开新会话强制先读三件套**（缺一不可）：
+> 1. `.docs/BLUEPRINT.md` —— 任务蓝图，**第四节**记录每个里程碑的完成状态与"下一步该做什么"，是恢复工作的唯一权威来源
+> 2. `.docs/.work/PROJECT-OVERVIEW.md` —— 架构快照（调用链路 / 关键契约 / 文件地图）
+> 3. 本文（CLAUDE.md）—— 项目铁律 + skill 入口
+>
+> **当前进度速览**（详情见 BLUEPRINT 第四节，以蓝图为准）：M0 项目治理 ✅ · M1 双仓地基 ✅ · M2 LLM 适配层 ✅ · M3 MCP 骰子 ✅ · M4 DSL 叙事引擎 ✅（已 tag `m4-engine-ready`）· M7 云存档服务端 ✅（M1 提前完成）· Pre-M5 meta-llm 怪物资产已落地（`client/src/assets/monsters/meta-llm/`，6 只超游 LLM 怪物 + banter + Claude Mythos 招式参考）· **下一步**：M5 像素美术 ⬜ 或 M6 玩法系统 ⬜（需用户敲定优先级）。
 
 ## 交流语言
 

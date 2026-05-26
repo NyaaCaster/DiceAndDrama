@@ -11,12 +11,14 @@ encounter:
     expressionKey: ear-twitch
 
 midBattle:
-  - text: "看那些蓝色小方块！是它在吞咽时漏出来的训练 token！抢一些回来当法术耗材！"
+  - text: "『算力熔断』！250 亿参数的虚空巨鲲张嘴了 Nyaa——它把全服务器的显存（VRAM）都吃光了！"
+    expressionKey: surprised
+  - text: "你们这回合的费用 / 行动点全被吞了，我的 Debug 锤都卡得挥不动了啦！！"
+    expressionKey: ear-twitch
+  - text: "好消息：吞完之后接下来 3 回合，咱们买卡用卡 -80% 费用——开局一只鲲，后面全靠吞，亏的是它账单。"
     expressionKey: smug
-  - text: "它的弱点在鳃部，每次张嘴换气我都能数出 7 块咀嚼残渣——下回合瞄着鳃打就行。"
+  - text: "看那些蓝色小方块！是它在吞咽时漏出来的训练 token！抢一些回来下次合成法术耗材！"
     expressionKey: smug
-  - text: "我刚检定了一下，这条鲲读过的书比我猫一辈子掉的毛还多。"
-    expressionKey: petting-cat
 
 defeat:
   - text: "搞定！它没来得及变成鹏——这下我们不用担心『其翼若垂天之云』砸下来了。"

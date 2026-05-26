@@ -13,11 +13,13 @@ encounter:
     expressionKey: eye-roll
 
 midBattle:
-  - text: "它的触手在动！每条触手好像都在写不同的注释……不对这是它的咒语！"
+  - text: "触手挥起来了——『限流触手』！终端啪一下弹窗 429 Too Many Requests，行动点要被它收双倍税！"
     expressionKey: surprised
-  - text: "你看它眼睛——那是『我能为你解释这段代码』的眼神，玩家千万别让它说话！"
+  - text: "解除条件是【充值 / API Key】道具，谁背包里有快摸出来——不然接下来两回合咱们出招都翻倍消耗。"
+    expressionKey: ear-twitch
+  - text: "你看它眼睛——那是『我能为你解释这段代码』的眼神，但是张嘴前先收 token 费的那种。"
     expressionKey: smug
-  - text: "我决定给它取名小橘——叫得亲切点也许就不用扣 SAN 了。"
+  - text: "我决定给它取名小橘——叫得亲切点也许它就给我们涨涨上下文窗口。"
     expressionKey: petting-cat
 
 defeat:

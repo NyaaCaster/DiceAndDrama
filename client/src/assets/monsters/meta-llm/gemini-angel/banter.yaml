@@ -11,12 +11,18 @@ encounter:
     expressionKey: smug
 
 midBattle:
-  - text: "看到没看到没！它的核心就是中间那个晶体！谁背得动 N² 兵器借我用一下！"
-    expressionKey: smug
-  - text: "它在折射光线！下一发激光打过来你们要 DEX 检定躲！"
-    expressionKey: eye-roll
-  - text: "我知道我知道这是真田丸作战！要在 17 秒内一齐开火——可惜我们没有日本电力公司。"
+  - text: "我打了它一下……诶？没反应？"
     expressionKey: ear-twitch
+  - text: "再来一发……还是没反应。喂喂，使徒大人？你死了吗？"
+    expressionKey: eye-roll
+  - text: "都两三个回合了它一动不动，是不是被我们一开始的输出秒了，没人通知它倒地？"
+    expressionKey: sleepy
+  - text: "等等等等——信号还在！这是『超长无响应』！它在憋大的！全员举盾！"
+    expressionKey: surprised
+  - text: "诶呀来了来了——前三回合压着没出的招一口气全砸过来啦！这就是一个回合内连放三次大招的『延迟连击』，AOE 叠 debuff 叠到天上去！"
+    expressionKey: surprised
+  - text: "下次它再装死，谁手里有【中断请求】就赶紧打断它读条——能砍掉一半连击伤害；要是有【流式输出】道具更好，把那波爆发摊回各回合就没那么疼了。"
+    expressionKey: smug
 
 defeat:
   - text: "搞定！这场拍下来够剪个特摄片头了——记得给我后期上 BGM。"

@@ -1,45 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <title>Gemini 第五使徒 · 四角星 + 拉米尔式几何护盾</title>
-  <defs>
-    <linearGradient id="gemini-angel-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#4285F4"/>
-      <stop offset="55%" stop-color="#9B72CB"/>
-      <stop offset="100%" stop-color="#D96570"/>
-    </linearGradient>
-    <radialGradient id="gemini-angel-halo" cx="32" cy="32" r="30" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#4285F4" stop-opacity="0"/>
-      <stop offset="80%" stop-color="#4285F4" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#9B72CB" stop-opacity="0.45"/>
-    </radialGradient>
-  </defs>
-
-  <!-- 外层光晕（暗示绝对体反射光线护盾）-->
-  <circle cx="32" cy="32" r="30" fill="url(#gemini-angel-halo)"/>
-
-  <!-- 8 个三角护盾片（呈正八边形排列，模仿拉米尔的几何浮空体） -->
-  <g fill="none" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round" opacity="0.92">
-    <polygon points="32,3   28.6,8.5 35.4,8.5"/>
-    <polygon points="53.5,10.5 48,14 51.5,18.5"/>
-    <polygon points="61,32  55.5,28.6 55.5,35.4"/>
-    <polygon points="53.5,53.5 51.5,47.5 48,52"/>
-    <polygon points="32,61  35.4,55.5 28.6,55.5"/>
-    <polygon points="10.5,53.5 14,49.5 17,55"/>
-    <polygon points="3,32   8.5,28.6 8.5,35.4"/>
-    <polygon points="10.5,10.5 16.5,12.5 12.5,16.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Gemini 第五使徒 · 官方四角星彩色（来自 @lobehub/icons Gemini.Color，scale 24→240）</title>
+  <g transform="translate(8 8) scale(10)">
+    <path fill="#3186FF" d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z"/>
+    <path fill="url(#gemini-grad-a)" d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z"/>
+    <path fill="url(#gemini-grad-b)" d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z"/>
+    <path fill="url(#gemini-grad-c)" d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z"/>
+    <defs>
+      <linearGradient id="gemini-grad-a" gradientUnits="userSpaceOnUse" x1="7" x2="11" y1="15.5" y2="12">
+        <stop stop-color="#08B962"/>
+        <stop offset="1" stop-color="#08B962" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gemini-grad-b" gradientUnits="userSpaceOnUse" x1="8" x2="11.5" y1="5.5" y2="11">
+        <stop stop-color="#F94543"/>
+        <stop offset="1" stop-color="#F94543" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gemini-grad-c" gradientUnits="userSpaceOnUse" x1="3.5" x2="17.5" y1="13.5" y2="12">
+        <stop stop-color="#FABC12"/>
+        <stop offset=".46" stop-color="#FABC12" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
   </g>
-
-  <!-- 中央四角星（Gemini 官方几何，由 4 个三阶贝塞尔花瓣组成） -->
-  <path
-    d="M32 8
-       C32 18, 38 26, 56 32
-       C38 38, 32 46, 32 56
-       C32 46, 26 38, 8 32
-       C26 26, 32 18, 32 8 Z"
-    fill="url(#gemini-angel-grad)"
-    stroke="#FFFFFF"
-    stroke-width="0.6"/>
-
-  <!-- 中央晶体提示（拉米尔正八面体缩影） -->
-  <polygon points="32,28 36,32 32,36 28,32" fill="#FFFFFF" opacity="0.85"/>
-  <polygon points="32,29.5 35,32 32,34.5 29,32" fill="#4285F4"/>
 </svg>

@@ -24,13 +24,9 @@ monsters:
     artFrames: 4
     artFramePathTemplate: ./claude-octopus/claude-octopus.frame-{i}.svg
     palette:
-      primary: "#D97757"
-      shadow: "#A84D32"
-      midShade: "#C66042"
-      highlight: "#FFB089"
-      eyeWhite: "#FFF8EE"
-      outline: "#1A1A1A"
-      darkAccent: "#7A3A21"
+      body: "#F47F71"        # Claude Code 欢迎界面主色：salmon pink
+      eye: "#1A1F2E"         # 黑瞳（实际是非常深的海军蓝，与 CLI 背景同源）
+      bgHint: "#0E1422"      # 仅供调用方上层背景参考；SVG 自身透明
     nyaaMisidentification: 克苏鲁旧日支配者
     banterPath: ./claude-octopus/banter.yaml
 

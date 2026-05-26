@@ -140,6 +140,8 @@ M1 双仓地基 + 镜像分发
 
 **目标**：基于参考图绘制 Nyaa 像素精灵 + 场景 + 怪物 + UI Kit；响应式根布局上线。
 
+> **Pre-M5 已提前交付**（2026-05-27）：6 只"超游 LLM 元怪物"图鉴落到 `client/src/assets/monsters/meta-llm/`——Claude 章鱼像素艺术 SVG（256×256 + 4 帧）+ 5 张厂商官方品牌 SVG（来自 `@lobehub/icons`，Gemini.Color / OpenAI.Mono / Grok.Mono / DeepSeek.Color / Ollama.Mono）+ 6 份 banter.yaml（Nyaa 误认 + 三阶段台词 + Claude Mythos 招式名）；招式机制设计参考保存在 `.ref/claude-mythos-skill-design.md`（gitignore，M6 战斗系统时消费）。M5 正经像素美术（Nyaa 精灵 / 场景 / 一般怪物 / UI Kit）尚未开工。
+
 - [ ] 从 `.ref/pic/nyaa1-3.png` 提取色板（脚本化，输出 `assets/pixel/palette.json`）
 - [ ] Nyaa 32×32 与 64×64 双版本，8 种表情/动作：默认 / 翻白眼 / 抽搐耳 / 吃甜甜圈 / 撸猫 / 惊讶 / 得意 / 瞌睡
 - [ ] 4 个玩家头像（Nerd / Grandma / 原创 2 个）
@@ -290,3 +292,4 @@ M1 双仓地基 + 镜像分发
 | 2026-05-27 | M2 完成：`services/llm/{types,providers,api,mcpRules,runDmTurn,modelHealth,storage}.ts` 全部到位；设置面板含 Provider 增删/排序（dnd-kit）/ 健康测试 / 模型刷新 / Qiny 注册链接；lobehub 品牌图标 + Keeper 来源的高质 Qiny 云朵图标；App.tsx 沙盒可流式发送 prompt；signature grep 双 hit | _待 commit_ |
 | 2026-05-27 | M3 完成：`services/mcp/{mcpApi,diceTools}.ts` + `components/DiceRoller.tsx`；广告范围收敛到 `roll_dnd` 一件套（CoC 调查向 / 通用骰式不在本作语境）；LlmSettingsModal 顶栏新增 MCP `/api/mcp/health` 探活条；App.tsx 沙盒接 `buildDiceToolUseOptions` 工具循环 + 工具日志面板 + 力量检定 demo 按钮；最终骰点经 `extractFinalRollValue` 抽出后驱动 DiceRoller 像素动画定格；signature grep 双 hit | _待 commit_ |
 | 2026-05-27 | M4 完成：四块 DSL 解析（缺块容错 + warnings）+ `mitt` typed 事件总线 + 吐槽队列 + `dmSystemPrompt` builder + `SceneRunner`（内存历史 + 上下文窗口 6 + drain 吐槽队列注入 system 段）+ `Typewriter`/`DialogueLog`/`ChoicePanel` 三件套 + 表情 emoji 占位（8 key 与 M5 精灵图同 schema）+ 沙盒双 Tab（手输 DSL 解析预览 / LLM 真跑流式四块）；vitest 28 用例全绿；持久化属 M7 双轨范围，M4 仅内存模型 | _待 commit_ |
+| 2026-05-27 | Pre-M5 · meta-llm 怪物资产 + 吐槽备注落地（M5 之前的支柱表达提前交付）：`client/src/assets/monsters/meta-llm/` 目录就绪，含 1 README + 1 顶层 index.yaml + 6 子目录；Claude 章鱼按 `.ref/claude_code.png` 重绘为 256×256 像素艺术 SVG（橘色 `#F47F71` + 4 触手腿 + 大像素 16×16 网格）+ 4 帧 idle 动画（基础 2 大像素 / 动作帧延伸 1 大像素的"波浪式伸展"）；其余 5 只全部直接复用 `@lobehub/icons` 官方品牌路径（Gemini.Color 四色渐变星 / OpenAI.Mono 黑花结 / Grok.Mono 白斜杠 X / DeepSeek.Color 蓝鲸鱼 / Ollama.Mono 白羊驼），统一 256 画幅、透明底、`<g transform="translate(8 8) scale(10)">` 把 24-viewBox 等比放大到 240×240 居中；6 份 banter.yaml 的 midBattle 段嵌入"Claude Mythos"招式名 + 程序员痛点梗（`限流触手 / 超长无响应 / 幻觉视界 / 真理越线 / 算力熔断 / 本地部署打地鼠`），expressionKey 全部在 8-key 字典内；招式机制设计参考收录到 `.ref/claude-mythos-skill-design.md`（gitignore，M6 战斗系统时消费）；当前阶段仅交付资产，无 TS 源码改动 | _待 commit_ |
