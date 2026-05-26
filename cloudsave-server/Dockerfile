@@ -30,6 +30,11 @@ ENV NODE_ENV=production
 ENV PORT=5105
 ENV CLOUDSAVE_DB_PATH=/app/data/cloudsave.sqlite
 
+# tzdata so the TZ env var (set via .env / compose) actually resolves to a
+# zoneinfo file. Without this, musl falls back to UTC silently and log
+# timestamps drift from the client container's clock.
+RUN apk add --no-cache tzdata
+
 # Run as the non-root `node` user shipped by the base image. Pre-create
 # /app/data with the right ownership so the sqlite file can be created at
 # boot without root.

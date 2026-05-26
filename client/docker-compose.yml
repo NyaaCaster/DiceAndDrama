@@ -3,13 +3,12 @@ services:
     build: .
     image: dicedrama-client:latest
     container_name: dicedrama-client
-    # Load MCP_* secrets from .env (git-ignored). The nginx entrypoint
+    # Load MCP_* secrets and TZ from .env (git-ignored). The nginx entrypoint
     # envsubst-renders nginx.conf.template at container start so the API key
     # never lands in image layers or the frontend bundle.
     env_file:
       - .env
     environment:
-      - TZ=Asia/Shanghai
       # Restrict the official nginx envsubst filter to MCP_-prefixed vars
       # only. Without this filter, envsubst would clobber nginx's own
       # variables ($host, $remote_addr, $proxy_add_x_forwarded_for, ...) and

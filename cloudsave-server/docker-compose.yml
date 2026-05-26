@@ -3,11 +3,11 @@ services:
     build: .
     image: cloudsave:latest
     container_name: cloudsave
+    # Load TZ / NODE_ENV / ALLOWED_ORIGINS from .env (git-ignored). Keeping
+    # these in .env (rather than hard-coded here) lets each deployment pick
+    # its own timezone and CORS list without touching compose.
     env_file:
       - .env
-    environment:
-      - TZ=Asia/Shanghai
-      - NODE_ENV=production
     ports:
       - "5105:5105"
     restart: unless-stopped
