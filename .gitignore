@@ -1,0 +1,37 @@
+# Node / build artifacts
+node_modules/
+dist/
+build/
+coverage/
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment / secrets — 绝不入库
+.env
+.env.*
+!.env.example
+
+# Docker runtime artifacts
+**/data/*.sqlite
+**/data/*.sqlite-journal
+**/data/*.bak
+cloudsave-server/data/
+
+# Local Claude harness state（每用户/每机器不同）
+.claude/settings.local.json
+
+# 设计参考图（受版权保护的 KoPP2 截图与 Nyaa 形象参考，仅本地开发期使用）
+.ref/
+
+# 私人工作笔记（仅本地，不进仓库）
+.docs/.work/scratch/
+.docs/.work/draft/
