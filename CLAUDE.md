@@ -58,6 +58,14 @@ LLM 每轮严格输出 `[DM_VISUAL]` / `[DIALOGUE]` / `[GAME_STATE]` / `[ACTION_
 - **禁止**：写成 `//` 注释（会被 Terser 剥掉）；渲染到玩家可见的 UI 文本；用 `AUTHOR_SIGNATURE` / `WATERMARK` 这类贴脸命名
 - 修改 minifier / Terser / esbuild 配置或 `version.ts` 字面量前，必读 `.docs/code-signature.md` 的检查清单
 
+### 9. KoPP2 借鉴只许"重写"，不许"照抄"
+
+`.ref/kopp2_rf/` 是 KoPP2 反编译得到的机制总结，**不入 git**，仅供本机参考。M4/M6/M8 落地时可以借鉴公式、枚举骨架、架构思路，但所有代码、文案、数值、美术都要按本项目语境**重写**。
+
+- ✅ 允许借鉴：经验曲线 `level² × 30 + 30`、22 种 SkillTriggerType 的 hook 模式、StatsCenter 的事件总线模式
+- ❌ 禁止：抄 C# 源码字面表达、抄对白文案、抄技能/物品描述文本、抄美术/音频资产、抄具体数值表
+- 详细规则见 `.docs/BLUEPRINT.md` 第六节"外部参考与版权边界"
+
 ## API / 模型供应商架构
 
 LLM 配置由用户在前端"设置"面板填入，凭据存浏览器 LocalStorage，每次请求随 body 一起发到后端。**服务端不持久化任何 API Key**。

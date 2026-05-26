@@ -28,6 +28,7 @@
 | 8 | `cloudsave` 设计 game-agnostic，将来给其他游戏复用 | 用户 2026-05-26 |
 | 9 | LLM 输出契约：四块 DSL `[DM_VISUAL]` / `[DIALOGUE]` / `[GAME_STATE]` / `[ACTION_PROMPT]` | 用户 2026-05-26 |
 | 10 | 核心代码以非注释方式埋入签名 `Nyaa be with you.`（详见 `.docs/code-signature.md`） | 用户 2026-05-26 |
+| 11 | KoPP2 机制仅作"灵感参考"——只借鉴公式/枚举/架构思路，**所有复用都要按本项目语境重写**，不抄源码字面、不抄文案、不抄美术（详见 `.ref/kopp2_rf/` + 本文第七节） | 用户 2026-05-26 |
 
 ## 三、里程碑总览（M0–M8）
 
@@ -120,15 +121,19 @@ M1 双仓地基 + 镜像分发
 
 **目标**：四块 DSL 解析、SceneRunner 状态机、Nyaa 表情控制器全部就绪；把"先调骰子再叙事"作为强约束写入 system prompt。
 
+> **KoPP2 参考链**：本里程碑要落地"事件总线 → Nyaa 元吐槽触发器"架构，灵感来自 KoPP2 的 `StatsCenter` 静态事件中心。详见 `.ref/kopp2_rf/01-mechanics.md` 第十一节、`.ref/kopp2_rf/02-adoption-notes.md` 第四节。**不要抄 KoPP2 的 30+ Action 字面表**——本项目按自己需要列出 ~20 个领域事件（`skill-used` / `monster-killed` / `dice-rolled` / `place-first-visit` / `spent-gold` …），用 `mitt` 重写一份 typed 事件总线。
+
 - [ ] `.docs/dsl-spec.md`：DSL 四块格式规范（含容错、转义、空块语义）
 - [ ] `engine/parseSceneBlocks.ts`：解析 `[DM_VISUAL]` / `[DIALOGUE]` / `[GAME_STATE]` / `[ACTION_PROMPT]`，缺块容错 + 单测
 - [ ] `engine/SceneRunner.ts`：串联多回合 Scene，记录玩家选择、与 LocalStorage 绑定
 - [ ] `engine/dmExpressionMap.ts`：DMVisual 文本 → Nyaa 精灵帧动画的关键词映射
+- [ ] `services/events/gameEvents.ts`：基于 `mitt` 的 typed 领域事件总线（参照 `.ref/kopp2_rf/02-adoption-notes.md` 第四节"设计映射"表，**重新设计**事件名与 payload 形状，不照搬）
+- [ ] `services/dm/sarcasmTrigger.ts`：把领域事件翻译成"待 Nyaa 吐槽事件"队列，下次 `runDmTurn()` 调用时作为 `userText` 注入
 - [ ] `components/Typewriter.tsx` + `DialogueLog.tsx` + `ChoicePanel.tsx`
 - [ ] system prompt（写入 `services/llm/dmSystemPrompt.ts`）：固化输出格式、骰子先行约束、Nyaa 人格
 - [ ] 全套四块输出的端到端 happy path
 
-**完成判定**：随手输入一条玩家行动，LLM 返回的四块 DSL 能被引擎完整解析并驱动 UI；DMVisual 正确触发 Nyaa 表情切换。
+**完成判定**：随手输入一条玩家行动，LLM 返回的四块 DSL 能被引擎完整解析并驱动 UI；DMVisual 正确触发 Nyaa 表情切换；连续 2 次 1 点骰会通过事件总线 → 吐槽队列触发 Nyaa 一句"你这运气是把骰子供起来当祖宗了？"级别的吐槽。
 
 ### M5 · 像素美术资产 ⬜
 
@@ -150,15 +155,37 @@ M1 双仓地基 + 镜像分发
 
 **目标**：角色创建、回合制战斗、节点世界地图、任务/背包/商店、随机桌面事件全部跑通。
 
+> **KoPP2 参考链**：本里程碑是 KoPP2 机制借鉴的主战场。详见 `.ref/kopp2_rf/01-mechanics.md` 全文（公式与枚举）+ `.ref/kopp2_rf/02-adoption-notes.md` 第二/三/五/六节（被动 build / 数据驱动修饰词 / 5e 化判定 / 直接可用常数）。**版权边界**：只搬公式与枚举骨架；技能/物品/状态的具体数值、文案、图标全部按本项目自己设计。
+>
+> 本里程碑允许直接搬的常数（写到 `engine/constants.ts`）：
+> - `expToNextLevel(level) = level² × 30 + 30`
+> - `questXpReward(levelAvg) = round((60 + levelAvg² × 15) × (1 + xpBonus))`
+> - `questGoldReward(levelAvg) = round(levelAvg × 1.5)`
+> - 怪物战利品：金币 20% / 物品 20% / 任务怪物品 70%
+> - 伤害浮动 ±25%
+>
+> 本里程碑必须**改造**而不是照搬：
+> - 攻击解析：用 5e 标准 `roll_dnd 1d20+atk vs AC`，**不**用 KoPP2 的"必中 + 浮动"
+> - 抵抗骰：用 5e 正向 `roll_dnd 1d20+save vs DC`，**不**用 KoPP2 的反向 d20
+> - 暴击：natural 20，**不**用 KoPP2 的百分比制
+> - 先攻：`1d20 + DEX_mod`，**不**用 KoPP2 的 1d12
+> - 属性：本项目用 D&D 5e 的 STR/DEX/CON/INT/WIS/CHA 子集（先选 4 个），**不**用 KoPP2 的三属性
+
 - [ ] 角色创建：职业 / 属性点 / 外观 / 起始装备
-- [ ] 回合制战斗：先攻 → 攻击/技能/物品/逃跑，攻击 → MCP `roll_dnd` → 伤害 `roll_dice` → Nyaa 旁白闭环
+- [ ] `engine/constants.ts`：写入上述可直接搬的常数（KoPP2_INSPIRED 命名空间，注释里点明出处但不抄字面表）
+- [ ] `engine/skillTriggers.ts`：精简到 12 种 SkillTriggerType（参照 `.ref/kopp2_rf/02-adoption-notes.md` 第二节列表，按本项目战斗循环重新命名为 `active.*` / `passive.*` / `trigger.*` 三类）
+- [ ] `engine/itemAttributes.ts`：精简到约 25 种 ItemAttributeType（参照 `.ref/kopp2_rf/02-adoption-notes.md` 第三节，类型名按 kebab-case 重写，不照抄 PascalCase）
+- [ ] `content/items/*.yaml`：每件装备是 `(类型, 值)` 字典，由 `Character` 派生属性时遍历累加
+- [ ] `engine/conditions.ts`：7 种状态（Wound/Burn/Poison/Stun/Confusion/Weakness/Rage），按本项目数值表重新平衡，**不**抄 KoPP2 的 `_damage / _damageIncreaseOverTime` 字面参数
+- [ ] 回合制战斗：先攻 → 攻击/技能/物品/逃跑，攻击 → MCP `roll_dnd` → 伤害 `roll_dice` → 触发 hook → Nyaa 旁白闭环
+- [ ] 触发器调度：每个角色身上挂的 skills/buffs/items 注册到 `triggerIndex: Map<TriggerType, Effect[]>`，攻击解析时按顺序 `fireTriggers(...)`
 - [ ] 节点世界地图：节点点击触发 Scene，与 SceneRunner 联动
-- [ ] 任务系统：主线/支线 JSON，与 `[GAME_STATE]` 中 `Active Quest` 字段联动
-- [ ] 商店 / 背包 / 装备 / 经验升级
+- [ ] 任务系统：精简到 6 种 QuestType（Slay / Collect / Travel / Battle / Bribe / Waves），主线/支线 JSON，与 `[GAME_STATE]` 中 `Active Quest` 字段联动
+- [ ] 商店 / 背包 / 装备 / 经验升级（用上面的 `expToNextLevel` 常数）
 - [ ] 随机桌面事件：30% 概率在战斗结束时插入"外卖到了 / 猫打翻骰子 / 邻居敲门"，Nyaa 即兴吐槽
 - [ ] 三个本地存档槽 UI（New Game / Continue / Erase）
 
-**完成判定**：从新建角色 → 进入序章 → 打一场战斗 → 结束并存档 → 重启游戏从存档恢复，全程无故障。
+**完成判定**：从新建角色 → 进入序章 → 打一场战斗 → 结束并存档 → 重启游戏从存档恢复，全程无故障；战斗中至少能观察到一条"装备/被动技能"通过触发器影响伤害结算，证明数据驱动的修饰词系统通路打通。
 
 ### M7 · 通用云存档服务 ⬜
 
@@ -179,6 +206,8 @@ M1 双仓地基 + 镜像分发
 ### M8 · 内容 + 适配打磨 ⬜
 
 **目标**：序章 + 第 1 章剧本与吐槽库齐备；手机竖屏与跨端测试通过；正式打包发布 v0.1.0。
+
+> **KoPP2 参考链**：本里程碑首版可裁剪到 5–6 种 QuestType + 2 种地形效果（随机施加状态 / 限制后排攻击）。详见 `.ref/kopp2_rf/02-adoption-notes.md` 第八节。**剧本文案与吐槽词全部原创**——KoPP2 的对白与剧情字符串不在借鉴范围内。
 
 - [ ] `content/00-prologue.scene.md`：开新团 + 角色创建教学
 - [ ] `content/01-tavern.scene.md`：边境酒馆 → 史莱姆战斗 + 1 个支线
@@ -205,8 +234,50 @@ M1 双仓地基 + 镜像分发
 
 详细规则见 `.claude/skills/sync-blueprint/SKILL.md`。
 
-## 六、变更日志
+## 六、外部参考与版权边界
+
+本项目的"灵感参考资料"集中在仓库**不入 git** 的 `.ref/` 目录里，仅供 NyaaCaster 本人本机参考。引用链与边界规则如下：
+
+### 6.1 引用资料清单
+
+| 路径 | 内容 | 入 git？ | 主要服务的里程碑 |
+|---|---|---|---|
+| `.ref/pic/` | 设计参考图（Nyaa 形象 + KoPP2 截图） | ❌ | M5 |
+| `.ref/kopp2_rf/01-mechanics.md` | KoPP2 反编译机制总结：属性体系、衍生公式、攻击流程、抵抗骰、状态、22 种技能触发、41+ 物品属性、事件总线、14 种任务、随机遭遇 | ❌ | M4 / M6 / M8 |
+| `.ref/kopp2_rf/02-adoption-notes.md` | 每条机制的"复用 / 改造 / 抛弃 / 原创"决策表，按里程碑落点 | ❌ | M4 / M6 / M8 |
+| `.ref/kopp2_rf/README.md` | 反编译流程记录、版权边界、后续步骤 | ❌ | 全程 |
+
+### 6.2 KoPP2 借鉴的版权红线（铁律，违反 = 删除重写）
+
+1. **只借鉴公式、枚举骨架与架构思路**——例如经验曲线 `level² × 30 + 30`、22 种 SkillTriggerType 的"被动 build hook"模式、StatsCenter 的事件总线模式
+2. **不抄 C# 源码字面表达**——本项目实现是 TypeScript，命名风格、模块切分、类型形状全部按本项目自己的工程规范重写
+3. **不抄对白文案、剧情字符串、技能/物品的描述文本**——所有玩家可见文本由 NyaaCaster 原创（包括 Nyaa 的吐槽语料）
+4. **不抄美术、音频、ScriptableObject 数据资产**——像素美术 100% 由本项目重新绘制（M5）
+5. **不抄具体数值表**——KoPP2 的怪物 HP / 装备伤害 / 技能消耗等数字仅作"量级参考"，本项目按自己的数值平衡重新调
+6. **反编译产物本身不入 git、不入 `.ref/`**——只在本机临时目录分析，分析完即删
+
+### 6.3 借鉴优先级（决定每个里程碑要回头翻哪份分析）
+
+| 阶段 | 必读 `.ref/kopp2_rf/` 章节 | 借鉴产出 |
+|---|---|---|
+| M4 | `01-mechanics.md` 第十一节 + `02-adoption-notes.md` 第四节 | `services/events/gameEvents.ts` + `services/dm/sarcasmTrigger.ts` |
+| M6 | `01-mechanics.md` 第二/三/四/五/六/七/八/九节 + `02-adoption-notes.md` 第二/三/五/六节 | `engine/constants.ts` + `engine/skillTriggers.ts` + `engine/itemAttributes.ts` + `engine/conditions.ts` + 战斗解析流程 |
+| M8 | `01-mechanics.md` 第十/十二节 + `02-adoption-notes.md` 第八节 | 5–6 种 QuestType + 2 种地形效果 |
+
+### 6.4 自检：什么是"重写"，什么是"照抄"
+
+| 行为 | 是否允许 |
+|---|---|
+| 在 `engine/constants.ts` 写 `expToNextLevel = (lvl) => lvl ** 2 * 30 + 30` | ✅ 公式是数学事实，不构成著作权对象 |
+| 把 KoPP2 的 `SkillTriggerType` 枚举翻成 TypeScript 联合类型，**精简到 12 项**且重命名为 `active.*` / `trigger.*` 形式 | ✅ 是"骨架借鉴 + 重新设计"，不是字面复制 |
+| 把 KoPP2 的 `Character.cs` 的 GetMaxHp 函数体直译成 TypeScript | ❌ 字面表达复制 → 必须重写 |
+| 把 KoPP2 怪物的 HP/攻击数值表搬过来 | ❌ 数值表是表达 + 本项目要按 5e 重新平衡 |
+| 在剧本里写"知识就是力量～又是新人来送经验呢"之类的 KoPP2 风格台词 | ❌ 文案必须原创，避开 KoPP2 的具体台词 |
+| 用 KoPP2 的 Nerd / Grandma 角色概念 | ⚠️ 角色概念是元 TRPG 通用梗，可借用**但**人设、立绘、台词全部原创 |
+
+## 七、变更日志
 
 | 日期 | 变更 | 关联 commit |
 |---|---|---|
 | 2026-05-26 | 蓝图初版（M0 启动） | _待 init commit_ |
+| 2026-05-26 | M0.5 完成：KoPP2 反编译与机制分析（不入 git，仅 `.ref/kopp2_rf/`）；新增决策 #11；M4/M6/M8 各加 KoPP2 引用链；新增第六节"外部参考与版权边界" | _本次会话_ |

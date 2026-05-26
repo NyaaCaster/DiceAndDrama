@@ -60,7 +60,9 @@ DiceAndDrama/
 │  ├─ rebuild/             ← 镜像重建 + 推送
 │  ├─ commit-push/         ← git 提交规范
 │  └─ sync-blueprint/      ← 阶段完成时同步蓝图 + 推送
-├─ .ref/pic/               ← 设计参考图（Nyaa 形象 + KoPP2 截图）
+├─ .ref/                   ← 灵感参考资料（**不入 git**，仅本机参考）
+│  ├─ pic/                 ← 设计参考图（Nyaa 形象 + KoPP2 截图）
+│  └─ kopp2_rf/            ← KoPP2 反编译机制分析（M4/M6/M8 借鉴依据 + 版权边界）
 └─ README.md               ← 顶层部署说明
 ```
 
@@ -210,6 +212,7 @@ cloudsave-server/src/
 | DSL 输出契约 | `.docs/dsl-spec.md` | M3/M4 落地 |
 | UI 配色铁律 | `.docs/UI-STYLE-GUIDE.md` | M5 落地 |
 | MCP 工具规格 | `.docs/NyaaChat-MCP.md`（摘录） | M3 |
+| KoPP2 机制借鉴 + 版权边界 | `.ref/kopp2_rf/01-mechanics.md` + `02-adoption-notes.md` + `BLUEPRINT.md` 第六节 | M4 / M6 / M8 |
 | 镜像构建 + 推送 | `.claude/skills/rebuild/SKILL.md` | M1 起 |
 | git 提交规范 | `.claude/skills/commit-push/SKILL.md` | 全程 |
 | 阶段完成同步流程 | `.claude/skills/sync-blueprint/SKILL.md` | 每阶段末尾 |
@@ -223,6 +226,7 @@ cloudsave-server/src/
 5. **不要绕过 rebuild skill**。手动 `docker compose build` 会忘记打 commit tag，导致 registry 上只有 `latest` 没有版本回滚点。
 6. **DSL 四块顺序固定**。`parseSceneBlocks` 容错"缺块"但**不容错"乱序"**——LLM 偶尔会把 `[ACTION_PROMPT]` 放最前面，要在 system prompt 里反复强调顺序。
 7. **不要把 LLM 凭据写进 `.env`**。`.env` 只放 `MCP_API_KEY`（给 nginx envsubst 用）和 `JWT_SECRET`（给 cloudsave 用）。LLM Key 由用户自填到 LocalStorage。
+8. **不要照抄 KoPP2 源码字面表达**。`.ref/kopp2_rf/` 里只是机制总结（公式、枚举、架构思路），M4/M6/M8 落地时所有代码、文案、数值表都要按本项目语境**重写**。详见 `BLUEPRINT.md` 第六节"外部参考与版权边界"。
 
 ## 快速 onboarding 流程（新会话开 5 分钟内完成）
 
