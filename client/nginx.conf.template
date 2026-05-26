@@ -1,0 +1,101 @@
+server {
+    listen 80;
+    root /usr/share/nginx/html;
+    index index.html;
+    server_tokens off;
+
+    # Security headers. CSP must allow https connect-src so the browser can hit
+    # any user-configured LLM provider endpoint directly (LLM Keys never leave
+    # the browser, so each request goes browser → provider).
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer" always;
+    add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
+
+    gzip on;
+    gzip_static on;
+    gzip_vary on;
+    gzip_comp_level 6;
+    gzip_min_length 1024;
+    gzip_types
+        text/plain
+        text/css
+        text/javascript
+        application/javascript
+        application/json
+        application/xml
+        application/wasm
+        image/svg+xml
+        font/ttf
+        font/otf;
+
+    # Hashed Vite asset bundles are immutable — cache aggressively.
+    location ~* ^/assets/.+\.(js|css|woff2?|ttf|otf|svg|png|jpg|jpeg|gif|webp|ico|wasm)$ {
+        expires 1y;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        try_files $uri =404;
+    }
+
+    # index.html and SPA fallback must never be cached, otherwise users get
+    # stuck on stale builds after a deploy.
+    location = /index.html {
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+    }
+
+    # MCP reverse proxy. Forwards browser-side requests to the NyaaChat-MCP
+    # streamable-HTTP service and injects the shared Bearer token server-side
+    # so the API key never reaches the frontend bundle. MCP_HOST / MCP_PORT /
+    # MCP_API_KEY are filled in by envsubst at container start (see compose
+    # env_file + NGINX_ENVSUBST_FILTER).
+    #
+    # Streamable-HTTP responses can be SSE (text/event-stream) or plain JSON
+    # depending on the call, so proxy_buffering is off and HTTP keepalive
+    # uses 1.1.
+    location = /api/mcp {
+        proxy_pass ${MCP_HOST}:${MCP_PORT}/mcp;
+        proxy_http_version 1.1;
+        proxy_set_header Authorization "Bearer ${MCP_API_KEY}";
+        proxy_set_header User-Agent "DiceAndDrama";
+        proxy_set_header Connection "";
+        proxy_buffering off;
+        proxy_redirect off;
+        proxy_connect_timeout 5s;
+        proxy_send_timeout    60s;
+        proxy_read_timeout    60s;
+    }
+
+    # MCP health probe. Public on the upstream (no auth required) — used by
+    # the settings panel "test connectivity" button.
+    location = /api/mcp/health {
+        proxy_pass ${MCP_HOST}:${MCP_PORT}/health;
+        proxy_http_version 1.1;
+        proxy_set_header User-Agent "DiceAndDrama";
+        proxy_redirect off;
+        proxy_connect_timeout 5s;
+        proxy_send_timeout    10s;
+        proxy_read_timeout    10s;
+    }
+
+    # Cloudsave reverse proxy. Talks to the sibling cloudsave service over the
+    # shared docker network (dicedrama-net). Path is rewritten to drop the
+    # /api/cloudsave prefix so the upstream sees /v1/... or /healthz directly.
+    location /api/cloudsave/ {
+        proxy_pass http://cloudsave:5105/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+        proxy_connect_timeout 5s;
+        proxy_send_timeout    30s;
+        proxy_read_timeout    30s;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

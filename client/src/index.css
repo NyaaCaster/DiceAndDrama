@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-stone-950 text-stone-100;
+  }
+  ::selection {
+    @apply bg-indigo-500/40 text-indigo-50;
+  }
+}
