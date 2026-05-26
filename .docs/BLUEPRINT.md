@@ -93,17 +93,17 @@ M1 双仓地基 + 镜像分发
 
 **完成判定**：本机依次跑 `cloudsave-server/rebuild.ps1` 与 `client/rebuild.ps1` 都能成功推到 registry；部署机跑 `update-and-restart.ps1` 后访问 http://localhost:3091 看到 hello world，`/api/cloudsave/healthz` 返回 200；`.docs/code-signature.md` 第五节检查清单全过。
 
-### M2 · 移植 LLM 适配层 🟡
+### M2 · 移植 LLM 适配层 ✅  _完成于 2026-05-27_
 
 **目标**：把 NyaaChat 的 LLM 接入层移植到 `client/src/services/llm/`，封装为 `runDmTurn()` 顶层接口。
 
-- [ ] 移植 `lib/providers.ts`（六家预设 + 多 Provider 数据模型）
-- [ ] 移植 `lib/api.ts`（统一 chat completion，OpenAI/Anthropic 双格式、流式、ApiHttpError、tool-use 多轮、cache token 上报）
-- [ ] 移植 `lib/chatPipeline.ts`（消息编排）
-- [ ] `services/llm/runDmTurn.ts`：包装出 `runDmTurn(messages, tools, opts)` 顶层接口，固定 system prompt 模板由调用方注入
-- [ ] 设置面板：Provider/Model 选择 + 健康测试（迁移自 NyaaChat 的 LlmProvidersModal）
+- [x] 移植 `lib/providers.ts`（六家预设 + 多 Provider 数据模型）
+- [x] 移植 `lib/api.ts`（统一 chat completion，OpenAI/Anthropic 双格式、流式、ApiHttpError、tool-use 多轮、cache token 上报）
+- [x] 移植 `lib/chatPipeline.ts`（消息编排）—— 改为 `services/llm/runDmTurn.ts` 直接包装 `fetchChatCompletion`，避免 chat-app 耦合
+- [x] `services/llm/runDmTurn.ts`：包装出 `runDmTurn(messages, opts)` 顶层接口，固定 system prompt 模板由调用方注入
+- [x] 设置面板：Provider/Model 选择 + 健康测试（迁移自 NyaaChat 的 LlmProvidersModal）+ Provider 排序（dnd-kit）+ 双击设为当前
 
-**完成判定**：在设置面板填入任意 OpenAI 兼容 Key，发送一条 prompt，能拿到流式回复。
+**完成判定**：在设置面板填入任意 OpenAI 兼容 Key，发送一条 prompt，能拿到流式回复。✅
 
 ### M3 · MCP 骰子接入 ⬜
 
@@ -287,3 +287,4 @@ M1 双仓地基 + 镜像分发
 | 2026-05-26 | M0.5 完成：KoPP2 反编译与机制分析（不入 git，仅 `.ref/kopp2_rf/`）；新增决策 #11；M4/M6/M8 各加 KoPP2 引用链；新增第六节"外部参考与版权边界" | _本次会话_ |
 | 2026-05-26 | 登记 `.ref/game_logo.png` 与 `.ref/icon.png` 草稿资产（icon 已扣透明）；M1 加 favicon 多尺寸导出任务，M5 加游戏 logo 像素化任务 | _本次会话_ |
 | 2026-05-26 | M1 完成：双仓骨架 + Docker pipeline + registry `h.hony-wen.com:5000` push 跑通 + cloudsave 完整后端（schema / auth / saves / 乐观并发 / X-Blessing 头）；M7 服务端 5 项随 M1 提前完成；M2 进入 🟡 | _待 commit_ |
+| 2026-05-27 | M2 完成：`services/llm/{types,providers,api,mcpRules,runDmTurn,modelHealth,storage}.ts` 全部到位；设置面板含 Provider 增删/排序（dnd-kit）/ 健康测试 / 模型刷新 / Qiny 注册链接；lobehub 品牌图标 + Keeper 来源的高质 Qiny 云朵图标；App.tsx 沙盒可流式发送 prompt；signature grep 双 hit | _待 commit_ |

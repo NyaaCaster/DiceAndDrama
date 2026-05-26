@@ -172,11 +172,23 @@ sessions (token, user_id, expires_at)
 
 ```
 client/src/services/llm/
-  ├─ providers.ts        ← 多 Provider 数据模型（移植自 NyaaChat）
-  ├─ api.ts              ← 统一 chat completion + tool-use 多轮
-  ├─ chatPipeline.ts     ← 消息编排
+  ├─ types.ts            ← Provider/Model/ApiSettings/ModelHealth 类型
+  ├─ providers.ts        ← 6 家预设 + 数据模型 + getActiveLlmProvider
+  ├─ api.ts              ← 统一 chat completion + tool-use 多轮 + ApiHttpError
+  ├─ mcpRules.ts         ← 骰子规则段（注入 system prompt）
+  ├─ modelHealth.ts      ← 健康探活（OpenAI/Anthropic 双格式 ping）
+  ├─ storage.ts          ← LocalStorage 持久化（key=dicedrama:llm-settings）
   ├─ dmSystemPrompt.ts   ← Nyaa 人格 + 骰子先行 + 四块契约（M4 落地）
-  └─ runDmTurn.ts        ← 顶层接口
+  └─ runDmTurn.ts        ← 顶层接口（直接包 fetchChatCompletion）
+client/src/components/
+  ├─ BaseModal.tsx       ← ESC 关闭 + Tab 焦点陷阱 + body 滚动锁
+  ├─ LlmSettingsModal.tsx ← Provider 增删/排序/启停/健康测试/模型刷新
+  ├─ SettingsFormBits.tsx ← Field / FieldHint / ToggleSwitch
+  ├─ ApiKeyInput.tsx     ← 长按显示明文
+  └─ icons/
+     ├─ providerIcons.tsx   ← lobehub deep-import + Qiny + Custom
+     ├─ QinyIcon.tsx        ← 橙色云朵渐变（来自 Keeper_CoC-TRPG）
+     └─ CustomProviderIcon.tsx ← 蓝色聊天气泡
 client/src/services/mcp/
   ├─ mcpApi.ts           ← JSON-RPC over SSE（移植自 NyaaChat）
   └─ diceTools.ts        ← roll_dnd / roll_dice / roll_coc 工具描述
