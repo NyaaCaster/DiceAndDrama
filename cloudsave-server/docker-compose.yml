@@ -1,0 +1,24 @@
+services:
+  cloudsave:
+    build: .
+    image: cloudsave:latest
+    container_name: cloudsave
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Shanghai
+      - NODE_ENV=production
+    ports:
+      - "5105:5105"
+    restart: unless-stopped
+    volumes:
+      - cloudsave_data:/app/data
+    networks:
+      - dicedrama-net
+
+volumes:
+  cloudsave_data:
+
+networks:
+  dicedrama-net:
+    external: true
