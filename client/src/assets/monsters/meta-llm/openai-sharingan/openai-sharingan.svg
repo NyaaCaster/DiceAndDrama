@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>OpenAI 万花筒花结 · 黑色 6 瓣花结 + 中心 3 红 tomoe</title>
+  <defs>
+    <radialGradient id="openai-sharingan-halo" cx="32" cy="32" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#BB0000" stop-opacity="0"/>
+      <stop offset="70%" stop-color="#BB0000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#BB0000" stop-opacity="0.35"/>
+    </radialGradient>
+    <clipPath id="openai-sharingan-circle">
+      <circle cx="32" cy="32" r="22"/>
+    </clipPath>
+  </defs>
+
+  <!-- 外圈淡红光晕（开了写轮眼的瞳孔意象） -->
+  <circle cx="32" cy="32" r="30" fill="url(#openai-sharingan-halo)"/>
+
+  <!-- OpenAI 6 瓣花结骨架：6 条 60° 旋转的椭圆瓣，黑实心 -->
+  <g fill="#0D0D0D">
+    <g transform="translate(32 32)">
+      <ellipse cx="0" cy="-12" rx="6" ry="14"/>
+      <ellipse cx="0" cy="-12" rx="6" ry="14" transform="rotate(60)"/>
+      <ellipse cx="0" cy="-12" rx="6" ry="14" transform="rotate(120)"/>
+      <ellipse cx="0" cy="-12" rx="6" ry="14" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-12" rx="6" ry="14" transform="rotate(240)"/>
+      <ellipse cx="0" cy="-12" rx="6" ry="14" transform="rotate(300)"/>
+    </g>
+  </g>
+
+  <!-- 中心瞳孔（红底） -->
+  <circle cx="32" cy="32" r="9" fill="#BB0000"/>
+  <circle cx="32" cy="32" r="3" fill="#0D0D0D"/>
+
+  <!-- 3 个红 tomoe（写轮眼经典 3 勾玉，120° 排布） -->
+  <!-- tomoe 形状：圆头 + 月牙尾 -->
+  <g fill="#0D0D0D">
+    <g transform="translate(32 32)">
+      <!-- tomoe 1 (上) -->
+      <g transform="translate(0 -7) rotate(0)">
+        <circle cx="0" cy="0" r="2"/>
+        <path d="M 0 0 Q 3 1 4 4 Q 1 3 0 0 Z"/>
+      </g>
+      <!-- tomoe 2 (右下) -->
+      <g transform="rotate(120) translate(0 -7)">
+        <circle cx="0" cy="0" r="2"/>
+        <path d="M 0 0 Q 3 1 4 4 Q 1 3 0 0 Z"/>
+      </g>
+      <!-- tomoe 3 (左下) -->
+      <g transform="rotate(240) translate(0 -7)">
+        <circle cx="0" cy="0" r="2"/>
+        <path d="M 0 0 Q 3 1 4 4 Q 1 3 0 0 Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

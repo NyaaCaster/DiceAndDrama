@@ -1,0 +1,25 @@
+# Grok 事件视界 X · Nyaa 误认 = X 空间黑洞
+monsterId: grok-blackhole
+nyaaMisidentification: X 空间黑洞
+
+encounter:
+  - text: "退后退后退后！这是 X 空间黑洞，谁掉进去就要在那个混沌平台里跟陌生人对线一辈子！"
+    expressionKey: surprised
+  - text: "我看见事件视界了——那两个橙色的小粒子就是被吸进去的可怜玩家的灵魂！"
+    expressionKey: ear-twitch
+  - text: "记住几条铁律：不许直接发言、不许引用、不许 retweet！否则就被算法吞了！"
+    expressionKey: eye-roll
+
+midBattle:
+  - text: "它在拉伸我们的攻击轨迹——所有远程攻击 -2，必须近战或者用穿越事件视界的咒语。"
+    expressionKey: smug
+  - text: "啊！我刚发的吐槽掉进去了！它现在被那个 X 当成训练语料了！"
+    expressionKey: surprised
+  - text: "看那个吸积盘的颜色——这是颗刚吃饱的黑洞，下次出现可能会变两倍。"
+    expressionKey: eye-roll
+
+defeat:
+  - text: "搞定。霍金辐射蒸发流程启动——我们就在它最虚弱的瞬间补上致命一击。"
+    expressionKey: smug
+  - text: "顺便从它体内捞回了 3 条上周丢失的吐槽，超值。"
+    expressionKey: petting-cat

@@ -1,0 +1,25 @@
+# DeepSeek 北冥之鲲 · Nyaa 误认 = 北冥之鲲（庄子 · 逍遥游）
+monsterId: deepseek-kun
+nyaaMisidentification: 北冥之鲲
+
+encounter:
+  - text: "开局一只鲲——进化全靠吞！这条蓝鲸来头不小，属下已经掉过它三个广告页了。"
+    expressionKey: surprised
+  - text: "等会儿等会儿，这家伙吞掉一定数量的玩家就会化为鹏，到时候『其翼若垂天之云』我们要被天上压死。"
+    expressionKey: eye-roll
+  - text: "诸位别站它头顶——它一张嘴你们就成饲料了。"
+    expressionKey: ear-twitch
+
+midBattle:
+  - text: "看那些蓝色小方块！是它在吞咽时漏出来的训练 token！抢一些回来当法术耗材！"
+    expressionKey: smug
+  - text: "它的弱点在鳃部，每次张嘴换气我都能数出 7 块咀嚼残渣——下回合瞄着鳃打就行。"
+    expressionKey: smug
+  - text: "我刚检定了一下，这条鲲读过的书比我猫一辈子掉的毛还多。"
+    expressionKey: petting-cat
+
+defeat:
+  - text: "搞定！它没来得及变成鹏——这下我们不用担心『其翼若垂天之云』砸下来了。"
+    expressionKey: smug
+  - text: "鲲战利品 +1：散落一地的训练 token，可以换 2 个等级的经验值。"
+    expressionKey: smug

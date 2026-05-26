@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Gemini 第五使徒 · 四角星 + 拉米尔式几何护盾</title>
+  <defs>
+    <linearGradient id="gemini-angel-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4285F4"/>
+      <stop offset="55%" stop-color="#9B72CB"/>
+      <stop offset="100%" stop-color="#D96570"/>
+    </linearGradient>
+    <radialGradient id="gemini-angel-halo" cx="32" cy="32" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4285F4" stop-opacity="0"/>
+      <stop offset="80%" stop-color="#4285F4" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#9B72CB" stop-opacity="0.45"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 外层光晕（暗示绝对体反射光线护盾）-->
+  <circle cx="32" cy="32" r="30" fill="url(#gemini-angel-halo)"/>
+
+  <!-- 8 个三角护盾片（呈正八边形排列，模仿拉米尔的几何浮空体） -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round" opacity="0.92">
+    <polygon points="32,3   28.6,8.5 35.4,8.5"/>
+    <polygon points="53.5,10.5 48,14 51.5,18.5"/>
+    <polygon points="61,32  55.5,28.6 55.5,35.4"/>
+    <polygon points="53.5,53.5 51.5,47.5 48,52"/>
+    <polygon points="32,61  35.4,55.5 28.6,55.5"/>
+    <polygon points="10.5,53.5 14,49.5 17,55"/>
+    <polygon points="3,32   8.5,28.6 8.5,35.4"/>
+    <polygon points="10.5,10.5 16.5,12.5 12.5,16.5"/>
+  </g>
+
+  <!-- 中央四角星（Gemini 官方几何，由 4 个三阶贝塞尔花瓣组成） -->
+  <path
+    d="M32 8
+       C32 18, 38 26, 56 32
+       C38 38, 32 46, 32 56
+       C32 46, 26 38, 8 32
+       C26 26, 32 18, 32 8 Z"
+    fill="url(#gemini-angel-grad)"
+    stroke="#FFFFFF"
+    stroke-width="0.6"/>
+
+  <!-- 中央晶体提示（拉米尔正八面体缩影） -->
+  <polygon points="32,28 36,32 32,36 28,32" fill="#FFFFFF" opacity="0.85"/>
+  <polygon points="32,29.5 35,32 32,34.5 29,32" fill="#4285F4"/>
+</svg>

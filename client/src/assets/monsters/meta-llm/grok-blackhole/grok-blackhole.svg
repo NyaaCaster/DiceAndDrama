@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Grok 事件视界 X · 黑色斜杠 X + 吸积盘</title>
+  <defs>
+    <radialGradient id="grok-blackhole-disk" cx="32" cy="32" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="62%" stop-color="#FF8A00" stop-opacity="0.85"/>
+      <stop offset="78%" stop-color="#9A1F60" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#1B1B1F" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="grok-blackhole-core" cx="32" cy="32" r="14" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="80%" stop-color="#0A0A0F"/>
+      <stop offset="100%" stop-color="#1B1B1F"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 吸积盘（事件视界外的高温尘埃带） -->
+  <circle cx="32" cy="32" r="30" fill="url(#grok-blackhole-disk)"/>
+
+  <!-- 内圈细环（事件视界 1） -->
+  <circle cx="32" cy="32" r="20" fill="none" stroke="#FF8A00" stroke-width="0.6" opacity="0.55"/>
+  <!-- 中圈细环（事件视界 2） -->
+  <circle cx="32" cy="32" r="16" fill="none" stroke="#9A1F60" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- 黑洞核心（事件视界） -->
+  <circle cx="32" cy="32" r="14" fill="url(#grok-blackhole-core)"/>
+
+  <!-- xAI 风格斜杠 X（粗细对比 stroke，黑实心，骑在事件视界中央） -->
+  <g stroke="#000000" stroke-linecap="square">
+    <!-- 主对角线（左上 → 右下，粗） -->
+    <line x1="22" y1="22" x2="42" y2="42" stroke-width="5"/>
+    <!-- 次对角线（右上 → 左下，细） -->
+    <line x1="42" y1="22" x2="22" y2="42" stroke-width="2.5"/>
+  </g>
+
+  <!-- X 边缘高光（暗示被引力拉伸） -->
+  <line x1="22" y1="22" x2="42" y2="42" stroke="#FFFFFF" stroke-width="0.4" opacity="0.5"/>
+
+  <!-- 角落 2 颗被引力撕扯的 X 字形小粒子（呼应 Twitter/X 双关） -->
+  <g stroke="#FF8A00" stroke-width="0.8" stroke-linecap="round" opacity="0.85">
+    <line x1="6" y1="9" x2="10" y2="13"/>
+    <line x1="10" y1="9" x2="6" y2="13"/>
+  </g>
+  <g stroke="#9A1F60" stroke-width="0.8" stroke-linecap="round" opacity="0.85">
+    <line x1="54" y1="51" x2="58" y2="55"/>
+    <line x1="58" y1="51" x2="54" y2="55"/>
+  </g>
+</svg>

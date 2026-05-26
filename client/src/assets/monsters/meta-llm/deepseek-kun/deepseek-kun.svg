@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>DeepSeek 北冥之鲲 · 鲸鱼剪影 + 咀嚼粒子</title>
+  <defs>
+    <linearGradient id="deepseek-kun-body" x1="0" y1="0" x2="0" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4D6BFE"/>
+      <stop offset="100%" stop-color="#2F4ACB"/>
+    </linearGradient>
+    <linearGradient id="deepseek-kun-belly" x1="0" y1="32" x2="0" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#A4B6FF"/>
+      <stop offset="100%" stop-color="#4D6BFE"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 鲸鱼主体（侧视，头朝右） -->
+  <!-- 鲸身：圆头梭形 -->
+  <path
+    d="M 8 36
+       C 8 26, 18 18, 32 18
+       C 44 18, 54 24, 56 30
+       L 60 28
+       L 60 36
+       L 56 34
+       C 54 40, 44 46, 32 46
+       C 18 46, 8 42, 8 36 Z"
+    fill="url(#deepseek-kun-body)"/>
+
+  <!-- 鲸腹（浅色高光） -->
+  <path
+    d="M 14 38
+       C 18 44, 28 46, 36 45
+       C 30 46, 22 45, 16 42
+       Z"
+    fill="url(#deepseek-kun-belly)"
+    opacity="0.7"/>
+
+  <!-- 背鳍 -->
+  <path
+    d="M 30 18
+       L 33 12
+       L 38 19
+       Z"
+    fill="#2F4ACB"/>
+
+  <!-- 胸鳍 -->
+  <path
+    d="M 22 36
+       L 18 44
+       L 28 41
+       Z"
+    fill="#2F4ACB"/>
+
+  <!-- 尾鳍（左侧分叉） -->
+  <path
+    d="M 8 36
+       L 2 30
+       L 4 36
+       L 2 44
+       Z"
+    fill="#2F4ACB"/>
+
+  <!-- 鳃部条纹 -->
+  <g stroke="#2F4ACB" stroke-width="0.7" fill="none" opacity="0.7">
+    <path d="M 46 26 Q 44 30 46 36"/>
+    <path d="M 49 26 Q 47 30 49 36"/>
+  </g>
+
+  <!-- 眼睛（贪吃白点 + 黑瞳） -->
+  <circle cx="51" cy="29" r="2" fill="#FFFFFF"/>
+  <circle cx="51.5" cy="29.5" r="1" fill="#0D0D0D"/>
+
+  <!-- 嘴部曲线（咧着小嘴） -->
+  <path d="M 48 34 Q 53 36 58 33" stroke="#0D0D0D" stroke-width="0.6" fill="none"/>
+
+  <!-- 咀嚼粒子（鳃后方向像素感小方块向后飘） -->
+  <g fill="#A4B6FF">
+    <rect x="42" y="25" width="2" height="2"/>
+    <rect x="38" y="22" width="2" height="2"/>
+    <rect x="40" y="29" width="2" height="2" opacity="0.8"/>
+    <rect x="35" y="26" width="2" height="2" opacity="0.7"/>
+    <rect x="34" y="32" width="2" height="2" opacity="0.6"/>
+    <rect x="30" y="24" width="2" height="2" opacity="0.5"/>
+    <rect x="29" y="30" width="2" height="2" opacity="0.5"/>
+  </g>
+</svg>

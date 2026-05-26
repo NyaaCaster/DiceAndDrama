@@ -1,0 +1,25 @@
+# Gemini 第五使徒 · Nyaa 误认 = Eva 第五使徒（拉米尔）
+monsterId: gemini-angel
+nyaaMisidentification: Eva 第五使徒（拉米尔）
+
+encounter:
+  - text: "诶——第五使徒来袭！全员就位，这玩意儿绝对体反射光线检定都打不进！"
+    expressionKey: surprised
+  - text: "等等让我抄家伙……AT 力场什么的，骰子呢骰子呢？"
+    expressionKey: ear-twitch
+  - text: "我记得这家伙的弱点是核心晶体——你们看那个白色的小八面体，瞄着它打！"
+    expressionKey: smug
+
+midBattle:
+  - text: "看到没看到没！它的核心就是中间那个晶体！谁背得动 N² 兵器借我用一下！"
+    expressionKey: smug
+  - text: "它在折射光线！下一发激光打过来你们要 DEX 检定躲！"
+    expressionKey: eye-roll
+  - text: "我知道我知道这是真田丸作战！要在 17 秒内一齐开火——可惜我们没有日本电力公司。"
+    expressionKey: ear-twitch
+
+defeat:
+  - text: "搞定！这场拍下来够剪个特摄片头了——记得给我后期上 BGM。"
+    expressionKey: smug
+  - text: "EVA 系列圆满完成，回去申请奖金啦。"
+    expressionKey: petting-cat

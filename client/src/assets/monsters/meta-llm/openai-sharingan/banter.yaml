@@ -1,0 +1,25 @@
+# OpenAI 万花筒花结 · Nyaa 误认 = 万花筒写轮眼
+monsterId: openai-sharingan
+nyaaMisidentification: 万花筒写轮眼
+
+encounter:
+  - text: "啊不要看它的眼睛！瞳术发动了！谁来给玩家加 INT 抗性骰！"
+    expressionKey: surprised
+  - text: "万花筒——这是上忍级的瞳术！我记得直视会触发月读……该死的我也看到了。"
+    expressionKey: eye-roll
+  - text: "诸位玩家把头扭到 45 度斜上方，假装在看我，避免直视！"
+    expressionKey: ear-twitch
+
+midBattle:
+  - text: "它要念咒了……『神威』！『天照』！『须佐能乎』！我只记得这三个名字！"
+    expressionKey: smug
+  - text: "玩家们用『非视觉系』判定还击——比如听觉感知或者敏捷骰。视觉检定全部 -5。"
+    expressionKey: eye-roll
+  - text: "为什么瞳孔里还有 3 个小逗号转啊转的，看着看着我都困了……"
+    expressionKey: sleepy
+
+defeat:
+  - text: "封印解除！花结碎了，3 个 tomoe 也散了——这就叫万花筒变回三勾玉对吧？"
+    expressionKey: smug
+  - text: "瞳力消耗过度，它要失明了——我们就在它眨眼那一刻补刀的。"
+    expressionKey: smug

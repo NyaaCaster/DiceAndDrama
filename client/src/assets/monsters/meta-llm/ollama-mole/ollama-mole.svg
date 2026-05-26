@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Ollama 地鼠羊驼 · 从圆形地洞冒出半身的羊驼</title>
+  <defs>
+    <radialGradient id="ollama-mole-hole" cx="32" cy="50" r="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1A0F08"/>
+      <stop offset="60%" stop-color="#2B1810"/>
+      <stop offset="100%" stop-color="#5A3A22"/>
+    </radialGradient>
+    <linearGradient id="ollama-mole-fur" x1="0" y1="6" x2="0" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="55%" stop-color="#F5F0E8"/>
+      <stop offset="100%" stop-color="#C9C0B0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 地洞外圈高光（土壤 rim） -->
+  <ellipse cx="32" cy="50" rx="26" ry="9" fill="#5A3A22"/>
+  <!-- 地洞主体（暗褐椭圆） -->
+  <ellipse cx="32" cy="50" rx="22" ry="7" fill="url(#ollama-mole-hole)"/>
+  <!-- 洞内深邃感（更小的全黑椭圆） -->
+  <ellipse cx="32" cy="51" rx="14" ry="3.5" fill="#0A0604"/>
+
+  <!-- 羊驼身体下端（被洞遮住） -->
+  <path
+    d="M 22 46
+       C 22 40, 28 38, 32 38
+       C 36 38, 42 40, 42 46
+       Z"
+    fill="url(#ollama-mole-fur)"/>
+
+  <!-- 羊驼颈部 + 头部 -->
+  <path
+    d="M 26 38
+       L 24 22
+       C 24 14, 28 8, 32 8
+       C 36 8, 40 12, 40 18
+       L 40 22
+       L 38 38
+       Z"
+    fill="url(#ollama-mole-fur)"/>
+
+  <!-- 头顶蓬松绒毛（Ollama logo 标志性的额顶羊毛卷） -->
+  <g fill="#FFFFFF">
+    <circle cx="29" cy="9" r="3"/>
+    <circle cx="33" cy="7" r="3"/>
+    <circle cx="37" cy="10" r="2.5"/>
+  </g>
+
+  <!-- 耳朵（左右两个尖耳） -->
+  <path d="M 26 12 L 24 6 L 28 11 Z" fill="#F5F0E8"/>
+  <path d="M 38 12 L 40 6 L 36 11 Z" fill="#F5F0E8"/>
+  <!-- 耳朵内侧 -->
+  <path d="M 26 11 L 25.5 8 L 27 10 Z" fill="#C9C0B0"/>
+  <path d="M 38 11 L 38.5 8 L 37 10 Z" fill="#C9C0B0"/>
+
+  <!-- 眼睛（黑豆点 + 高光） -->
+  <ellipse cx="29" cy="20" rx="1.4" ry="2" fill="#0D0D0D"/>
+  <ellipse cx="35" cy="20" rx="1.4" ry="2" fill="#0D0D0D"/>
+  <circle cx="29.4" cy="19.4" r="0.5" fill="#FFFFFF"/>
+  <circle cx="35.4" cy="19.4" r="0.5" fill="#FFFFFF"/>
+
+  <!-- 鼻子 -->
+  <ellipse cx="32" cy="26" rx="1.5" ry="1" fill="#5A3A22"/>
+
+  <!-- 嘴（小笑） -->
+  <path d="M 30 29 Q 32 31 34 29" stroke="#5A3A22" stroke-width="0.8" fill="none"/>
+
+  <!-- 头顶问号（元 TRPG 提示玩家"快敲它"） -->
+  <g fill="#FFC857" stroke="#8B6F1A" stroke-width="0.5">
+    <path
+      d="M 48 8
+         Q 48 4, 51 4
+         Q 54 4, 54 7
+         Q 54 9, 52 10
+         L 51 12"
+      fill="none" stroke-width="1.6"/>
+    <circle cx="51" cy="14.5" r="1"/>
+  </g>
+</svg>

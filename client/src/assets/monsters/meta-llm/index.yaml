@@ -1,0 +1,100 @@
+# Meta-LLM 怪物图鉴顶层索引（M6 战斗系统读这个）
+#
+# Schema 与未来 services/events/gameEvents.ts 的 monster-encountered 事件 payload 对齐：
+#   { monsterId: string, tier: "mob"|"elite"|"boss", encounterContext?: string }
+#
+# 字段说明：
+#   id                     - kebab-case，与目录名一致
+#   displayName            - 中文显示名（怪物图鉴 / 状态条 / 战利品提示用）
+#   tier                   - mob | elite | boss
+#   artFormat              - pixel-svg（像素艺术 SVG）| vector-svg（普通矢量 SVG）
+#   artPath                - 主资产路径（章鱼=第 0 帧）
+#   artFrames              - 帧数；省略 = 1
+#   artFramePathTemplate   - 多帧资产路径模板（如 ./claude-octopus/claude-octopus.frame-{i}.svg）
+#   palette                - 主调色（仅记录、不在 schema 强校验）
+#   nyaaMisidentification  - Nyaa 一眼误认的对象
+#   banterPath             - banter.yaml 相对路径
+
+monsters:
+  - id: claude-octopus
+    displayName: 橘色章鱼
+    tier: boss
+    artFormat: pixel-svg
+    artPath: ./claude-octopus/claude-octopus.svg
+    artFrames: 4
+    artFramePathTemplate: ./claude-octopus/claude-octopus.frame-{i}.svg
+    palette:
+      primary: "#D97757"
+      shadow: "#A84D32"
+      midShade: "#C66042"
+      highlight: "#FFB089"
+      eyeWhite: "#FFF8EE"
+      outline: "#1A1A1A"
+      darkAccent: "#7A3A21"
+    nyaaMisidentification: 克苏鲁旧日支配者
+    banterPath: ./claude-octopus/banter.yaml
+
+  - id: gemini-angel
+    displayName: 第五使徒-双子
+    tier: elite
+    artFormat: vector-svg
+    artPath: ./gemini-angel/gemini-angel.svg
+    palette:
+      gradientStart: "#4285F4"
+      gradientMid: "#9B72CB"
+      gradientEnd: "#D96570"
+      shieldStroke: "#FFFFFF"
+    nyaaMisidentification: Eva 第五使徒（拉米尔）
+    banterPath: ./gemini-angel/banter.yaml
+
+  - id: openai-sharingan
+    displayName: 万花筒花结
+    tier: elite
+    artFormat: vector-svg
+    artPath: ./openai-sharingan/openai-sharingan.svg
+    palette:
+      knot: "#0D0D0D"
+      tomoe: "#BB0000"
+      halo: "#BB0000"
+    nyaaMisidentification: 万花筒写轮眼
+    banterPath: ./openai-sharingan/banter.yaml
+
+  - id: grok-blackhole
+    displayName: 事件视界 X
+    tier: elite
+    artFormat: vector-svg
+    artPath: ./grok-blackhole/grok-blackhole.svg
+    palette:
+      slash: "#000000"
+      eventHorizon: "#1B1B1F"
+      dustOuter: "#9A1F60"
+      dustInner: "#FF8A00"
+    nyaaMisidentification: X 空间黑洞
+    banterPath: ./grok-blackhole/banter.yaml
+
+  - id: deepseek-kun
+    displayName: 北冥之鲲
+    tier: elite
+    artFormat: vector-svg
+    artPath: ./deepseek-kun/deepseek-kun.svg
+    palette:
+      whale: "#4D6BFE"
+      whaleShade: "#2F4ACB"
+      bubble: "#A4B6FF"
+      eye: "#FFFFFF"
+    nyaaMisidentification: 北冥之鲲
+    banterPath: ./deepseek-kun/banter.yaml
+
+  - id: ollama-mole
+    displayName: 地鼠羊驼
+    tier: mob
+    artFormat: vector-svg
+    artPath: ./ollama-mole/ollama-mole.svg
+    palette:
+      llamaFur: "#F5F0E8"
+      llamaShade: "#C9C0B0"
+      hole: "#2B1810"
+      holeRim: "#5A3A22"
+      questionMark: "#FFC857"
+    nyaaMisidentification: 地洞里冒出来的地鼠
+    banterPath: ./ollama-mole/banter.yaml

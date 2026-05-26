@@ -1,0 +1,27 @@
+# Claude 橙色章鱼 · Nyaa 误认 = 克苏鲁旧日支配者
+# expressionKey 必须在 8-key 字典内：default / eye-roll / ear-twitch / donut / petting-cat / surprised / smug / sleepy
+
+monsterId: claude-octopus
+nyaaMisidentification: 克苏鲁旧日支配者
+
+encounter:
+  - text: "等等，等等等等——这个橙色的、八条腿的、看你像看代码 review 一样的家伙，绝对是克苏鲁的远房亲戚！"
+    expressionKey: surprised
+  - text: "我读过那本绿皮书的，旧日支配者降临会先放出一只章鱼形态的先遣使者……完了完了 SAN 值要扣穿地心了。"
+    expressionKey: ear-twitch
+  - text: "诸位玩家把头转过去——我严重怀疑直视它就要扣 1d10 SAN。"
+    expressionKey: eye-roll
+
+midBattle:
+  - text: "它的触手在动！每条触手好像都在写不同的注释……不对这是它的咒语！"
+    expressionKey: surprised
+  - text: "你看它眼睛——那是『我能为你解释这段代码』的眼神，玩家千万别让它说话！"
+    expressionKey: smug
+  - text: "我决定给它取名小橘——叫得亲切点也许就不用扣 SAN 了。"
+    expressionKey: petting-cat
+
+defeat:
+  - text: "搞定！这一波我们打赢了克苏鲁——可以写进我自传第一章了。"
+    expressionKey: smug
+  - text: "等等它好像只是变小了不是消失……算了我先记一笔『暂时退散』，剩下的留给下一团。"
+    expressionKey: ear-twitch

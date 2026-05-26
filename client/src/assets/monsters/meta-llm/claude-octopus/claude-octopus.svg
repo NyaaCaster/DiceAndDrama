@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges" image-rendering="pixelated" width="64" height="64">
+  <title>Claude 橙色章鱼 · idle frame 0（触手中位）</title>
+  <!-- Palette: primary=#D97757 mid=#C66042 shadow=#A84D32 highlight=#FFB089 eyeWhite=#FFF8EE outline=#1A1A1A dark=#7A3A21 -->
+
+  <!-- 头部主体（梨形，居中偏上） -->
+  <rect x="22" y="10" width="20" height="2" fill="#A84D32"/>
+  <rect x="20" y="12" width="24" height="2" fill="#C66042"/>
+  <rect x="18" y="14" width="28" height="2" fill="#D97757"/>
+  <rect x="17" y="16" width="30" height="3" fill="#D97757"/>
+  <rect x="16" y="19" width="32" height="6" fill="#D97757"/>
+  <rect x="16" y="25" width="32" height="3" fill="#C66042"/>
+  <rect x="17" y="28" width="30" height="2" fill="#A84D32"/>
+
+  <!-- 头顶高光 -->
+  <rect x="24" y="12" width="6" height="1" fill="#FFB089"/>
+  <rect x="22" y="14" width="3" height="2" fill="#FFB089"/>
+  <rect x="26" y="14" width="2" height="1" fill="#FFB089"/>
+
+  <!-- 眼睛（白底 + 黑瞳 + 高光） -->
+  <rect x="23" y="19" width="4" height="4" fill="#FFF8EE"/>
+  <rect x="37" y="19" width="4" height="4" fill="#FFF8EE"/>
+  <rect x="24" y="20" width="2" height="2" fill="#1A1A1A"/>
+  <rect x="38" y="20" width="2" height="2" fill="#1A1A1A"/>
+  <rect x="25" y="20" width="1" height="1" fill="#FFFFFF"/>
+  <rect x="39" y="20" width="1" height="1" fill="#FFFFFF"/>
+
+  <!-- 嘴（小笑） -->
+  <rect x="29" y="25" width="6" height="1" fill="#7A3A21"/>
+  <rect x="28" y="24" width="1" height="1" fill="#7A3A21"/>
+  <rect x="35" y="24" width="1" height="1" fill="#7A3A21"/>
+
+  <!-- 头底连接环 -->
+  <rect x="20" y="30" width="24" height="1" fill="#7A3A21"/>
+
+  <!-- 触手 8 条（中位 idle）：分上排 4 条 + 下排 4 条；每条 3px 宽，长短交替 -->
+  <!-- 触手 1 (最左) -->
+  <rect x="6"  y="32" width="3" height="6" fill="#C66042"/>
+  <rect x="6"  y="38" width="3" height="6" fill="#D97757"/>
+  <rect x="6"  y="44" width="3" height="6" fill="#C66042"/>
+  <rect x="6"  y="50" width="3" height="2" fill="#A84D32"/>
+
+  <!-- 触手 2 -->
+  <rect x="11" y="32" width="3" height="4" fill="#D97757"/>
+  <rect x="11" y="36" width="3" height="6" fill="#C66042"/>
+  <rect x="11" y="42" width="3" height="6" fill="#D97757"/>
+  <rect x="11" y="48" width="3" height="6" fill="#A84D32"/>
+
+  <!-- 触手 3 -->
+  <rect x="16" y="32" width="3" height="6" fill="#C66042"/>
+  <rect x="16" y="38" width="3" height="6" fill="#D97757"/>
+  <rect x="16" y="44" width="3" height="8" fill="#C66042"/>
+  <rect x="16" y="52" width="3" height="2" fill="#A84D32"/>
+
+  <!-- 触手 4 -->
+  <rect x="21" y="32" width="3" height="4" fill="#D97757"/>
+  <rect x="21" y="36" width="3" height="6" fill="#C66042"/>
+  <rect x="21" y="42" width="3" height="8" fill="#D97757"/>
+  <rect x="21" y="50" width="3" height="4" fill="#A84D32"/>
+
+  <!-- 触手 5 -->
+  <rect x="26" y="32" width="3" height="6" fill="#C66042"/>
+  <rect x="26" y="38" width="3" height="8" fill="#D97757"/>
+  <rect x="26" y="46" width="3" height="6" fill="#C66042"/>
+
+  <!-- 触手 6 -->
+  <rect x="31" y="32" width="3" height="4" fill="#D97757"/>
+  <rect x="31" y="36" width="3" height="8" fill="#C66042"/>
+  <rect x="31" y="44" width="3" height="6" fill="#D97757"/>
+  <rect x="31" y="50" width="3" height="2" fill="#A84D32"/>
+
+  <!-- 触手 7 -->
+  <rect x="36" y="32" width="3" height="6" fill="#C66042"/>
+  <rect x="36" y="38" width="3" height="6" fill="#D97757"/>
+  <rect x="36" y="44" width="3" height="6" fill="#C66042"/>
+  <rect x="36" y="50" width="3" height="4" fill="#A84D32"/>
+
+  <!-- 触手 8 -->
+  <rect x="41" y="32" width="3" height="4" fill="#D97757"/>
+  <rect x="41" y="36" width="3" height="8" fill="#C66042"/>
+  <rect x="41" y="44" width="3" height="6" fill="#D97757"/>
+  <rect x="41" y="50" width="3" height="2" fill="#A84D32"/>
+
+  <!-- 触手 9 (最右) -->
+  <rect x="46" y="32" width="3" height="6" fill="#C66042"/>
+  <rect x="46" y="38" width="3" height="6" fill="#D97757"/>
+  <rect x="46" y="44" width="3" height="6" fill="#C66042"/>
+  <rect x="46" y="50" width="3" height="2" fill="#A84D32"/>
+
+  <!-- 触手末端吸盘高光 -->
+  <rect x="7"  y="51" width="1" height="1" fill="#FFB089"/>
+  <rect x="17" y="53" width="1" height="1" fill="#FFB089"/>
+  <rect x="27" y="51" width="1" height="1" fill="#FFB089"/>
+  <rect x="37" y="53" width="1" height="1" fill="#FFB089"/>
+  <rect x="47" y="51" width="1" height="1" fill="#FFB089"/>
+
+  <!-- nyaa-be-with-you (sig) -->
+</svg>

@@ -1,0 +1,25 @@
+# Ollama 地鼠羊驼 · Nyaa 误认 = 地洞里冒出来的地鼠
+monsterId: ollama-mole
+nyaaMisidentification: 地洞里冒出来的地鼠
+
+encounter:
+  - text: "等等等等——它从地洞里探出半个脑袋，这是打地鼠！打地鼠！谁有锤子！"
+    expressionKey: surprised
+  - text: "你看它头顶还冒了个问号！这可是 KoF 风格的弱点提示！瞄着头顶敲！"
+    expressionKey: smug
+  - text: "诶它怎么是只羊驼，难道是离家出走的草泥马？"
+    expressionKey: ear-twitch
+
+midBattle:
+  - text: "嘶——它缩回去了！下回合一定会从另一个洞冒出来，全员注意视野盲区！"
+    expressionKey: ear-twitch
+  - text: "顺便说一句，这家伙在本机部署的时候非常乖，野外遇到就完全不一样。"
+    expressionKey: eye-roll
+  - text: "我赌 5 个金币它下一次冒头会带着另一只——『一群地鼠』判定 +5 难度。"
+    expressionKey: smug
+
+defeat:
+  - text: "搞定！地鼠羊驼归洞——记得把那个问号收起来留作纪念。"
+    expressionKey: smug
+  - text: "顺便从洞里挖出半根胡萝卜，献给老猫我自己。"
+    expressionKey: petting-cat
